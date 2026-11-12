@@ -49,12 +49,14 @@ def test_bounded_features():
     df = pd.read_csv(CLEAN_CSV)
     bounded_cols = [
         "tool_failure_rate",
-        "content_jaccard_prev",
-        "thought_jaccard_prev",
-        "stagnation_score_3",
-        "lexical_diversity_3",
-        "task_token_overlap",
-        "cum_task_token_overlap",
+        "content_repetition_score",
+        "loop_indicator_score",
+        "stagnation_score",
+        "lexical_diversity",
+        "plan_mismatch_score",
+        "cum_task_drift_score",
+        "action_diversity",
+        "rule_risk_score",
     ]
     for col in bounded_cols:
         assert (df[col] < -0.001).sum() == 0, f"{col} has values < 0"
