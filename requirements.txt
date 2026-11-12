@@ -25,4 +25,8 @@ tqdm>=4.66.0
 datasets>=2.18.0
 huggingface_hub>=0.20.0
 
+# Structured Output & Validation
+pydantic>=2.0.0
+
+
 

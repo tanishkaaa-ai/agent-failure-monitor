@@ -1,0 +1,22 @@
+# Configuration for Phase 7 Decision-Fusion System
+
+thresholds:
+  # Machine Learning Risk Probability Thresholds
+  ml_alarm_threshold: 0.60          # Prob >= 0.60 indicates elevated failure risk
+  ml_continue_threshold: 0.35       # Prob < 0.35 indicates low risk
+  ml_override_threshold: 0.85       # Prob >= 0.85 triggers immediate alarm unless judge is 100% confident
+
+  # Critical Runtime Signal Override Thresholds
+  max_retries_threshold: 3          # >= 3 active retries on same failing tool triggers immediate alarm
+  max_consecutive_failures: 3       # >= 3 consecutive tool errors triggers immediate alarm
+  critical_loop_threshold: 0.85     # Loop score >= 0.85 triggers immediate alarm
+  critical_stagnation_threshold: 0.90 # Stagnation score >= 0.90 triggers immediate alarm
+
+  # LLM Judge Confidence Thresholds
+  llm_high_confidence: 0.75         # Confidence >= 0.75 allows LLM to resolve disagreements
+  llm_low_confidence: 0.50          # Confidence < 0.50 causes system to discount LLM in ties
+
+logging:
+  enabled: true
+  log_level: "INFO"
+
