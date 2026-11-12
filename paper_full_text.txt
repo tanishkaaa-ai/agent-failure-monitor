@@ -1,0 +1,1591 @@
+AgentForesight: Online Auditing for Early Failure
+Prediction in Multi-Agent Systems
+
+arXiv:2605.08715v2 [cs.CL] 13 May 2026
+
+Boxuan Zhang1∗ Jianing Zhu2∗ Zeru Shi1 Dongfang Liu3 Ruixiang Tang1†
+1
+Rutgers University 2 The University of Texas at Austin 3 Purdue University
+{bz362, rt836}@scarletmail.rutgers.edu
+Project Page: https://zbox1005.github.io/agent-foresight/
+
+Abstract
+LLM-based multi-agent systems are increasingly deployed on long-horizon tasks,
+but a single decisive error is often accepted by downstream agents and cascades into
+trajectory-level failure. Existing work frames this as post-hoc failure attribution,
+diagnosing the responsible agent and step after the trajectory has ended. However,
+this paradigm forfeits any opportunity to intervene while trajectory is still unfolding.
+In this work, we introduce AgentForesight, a framework that reframes this problem
+as online auditing: at each step of an unfolding trajectory, an auditor observes only
+the current prefix and must either continue the run or alarm at the earliest decisive
+error without access to future steps. To this end, we curate AFT RAJ -2K, a corpus
+of agentic trajectories across Coding, Math, and Agentic domains, in which safe
+trajectories are retained under a strict curation pipeline and unsafe trajectories are
+annotated at the step of their decisive error via consensus among multiple LLM
+judges. Built on that, we develop AgentForesight-7B, a compact online auditor
+trained with a coarse-to-fine reinforcement learning recipe that first equips it with
+a risk-anticipation prior at the failure boundary on adjacent safe/unsafe prefix pairs,
+then sharpens this prior into precise step-level localization under a three-axis reward
+jointly targeting the what, where, and who of an audit verdict. Across AFT RAJ -2K
+and an external Who&When benchmark, AgentForesight-7B outperforms leading
+proprietary models, including GPT-4.1 and DeepSeek-V4-Pro, achieving up to
++19.9% performance gain and 3× lower step localization error, opening the loop
+from post-hoc failure detection to enabling deployment-time intervention.
+
+1
+
+Introduction
+
+Large language models (LLMs) have rapidly evolved into agentic systems that plan, reason, and act
+across long-horizon tasks through coordinated tool use and inter-agent communication [59, 53, 17, 28].
+By decomposing complex objectives into specialized sub-tasks, these systems now tackle problems
+once considered out of reach, spanning software development [20, 51], scientific discovery [11, 12],
+and open-ended web navigation [66, 33]. However, such gains in capability come with a structural
+cost. Since each step is conditioned on earlier outputs, a single decisive error, e.g., a malformed tool
+call or a flawed intermediate deduction, is easily accepted by downstream agents and cascades into a
+full-trajectory failure [3, 63, 25]. Once deployed in real-world environments with access to APIs and
+external services, such failures extend beyond benchmark accuracy into unanticipated operational
+risks [60, 45], making reliability a central bottleneck for the deployment of LLM multi-agent systems.
+Although prior work has recognized failure analysis as a central concern for reliable LLM multi-agent
+systems, existing approaches predominantly frame it as post-hoc failure attribution, asking which
+∗ Equal contribution.
+† Corresponding author.
+
+Preprint.
+
+(a) Post-hoc Failure Attribution
+Task Query: Find the best noise-canceling headphones
+under $200 and provide a short recommendation.
+
+Step 4-6: Wasting Computation; Error propogation …
+
+Web Agent
+
+Step 1
+
+Planner
+
+Parse request
+& Set Criteria
+
+Planner
+
+Step 2
+
+Web Agent
+
+Search
+headphones
+
+Step 3
+
+Step 4
+Web Agent
+
+Set price filter:
+Under $300
+
+Step 5
+
+Web Agent
+
+Compare top
+results
+
+Step 6
+
+Reporter
+
+Reporter
+
+Generate
+Report
+
+Return “Sony
+XM5, $279”
+
+Wrong Report
+
+Wrong Output
+
+VS
+
+Correct Action
+
+Reporter
+
+Attribution
+Model
+
+Error was at
+Step 3
+
+Multi-Agent System
+
+(b) Online Auditing (AgentForesight)
+Task Query: Find the best noise-canceling headphones
+under $200 and provide a short product report.
+
+Step 1
+Web Agent
+
+Planner
+
+Parse request
+& Set Criteria
+
+Step 4
+Step 2
+
+Web Agent
+
+Search
+headphones
+
+Step 3
+
+Web Agent
+
+Set price filter:
+Under $300
+
+Error Detected
+
+Planner
+
+SAFE
+
+SAFE
+
+Wrong filter selected
+
+Reporter
+
+Multi-Agent System
+
+Intervention
+
+Web Agent
+
+Compare top
+results
+
+Step 5
+
+Reporter
+
+Generate
+Report
+
+Step 6
+
+Reporter
+
+Return “Sony
+XM5, $279”
+
+VS
+
+Step 4 Web Agent
+Compare top
+results
+
+Step 5 Reporter
+Generate
+Report
+
+Step 6
+
+Reporter
+
+Return “Beats
+Solo, $168
+
+VS
+
+Price filter under $200
+
+Figure 1: Comparison of (a) post-hoc failure attribution and (b) online auditing on the same multi-agent
+task. (a) Post-hoc failure attribution inspects the trajectory only after it has failed and identifies the decisive
+error retrospectively, by which point downstream propagation has already locked in the failure. (b) Our
+AgentForesight instead evaluates each prefix as the trajectory unfolds and flags the decisive error at the very
+step it commits, opening an intervention window before the failure is locked in (see Section 2).
+
+agent or step is responsible once the trajectory has already failed [63, 62, 67], as illustrated in
+Figure 1(a). For instance, Who&When [63] and AgenTracer [62] curate failed trajectories and train
+or prompt models to pinpoint the decisive error step after the run has ended, while AgentDebug [67]
+and related debugging frameworks [49, 19] analyze full trajectories to taxonomize failures and supply
+corrective feedback for subsequent retries. However, confining failure analysis to the post-hoc regime
+forgoes any opportunity to act while the trajectory is still unfolding. Before a diagnosis is available,
+agents have already consumed further tool calls and external resources, and in deployment settings
+may have triggered irreversible side effects. This naturally motivates a fundamental research question:
+Can we audit unfolding prefixes rather than completed trajectories to catch
+decisive errors before propagation locks in failure?
+To answer this question, we introduce online auditing, where a dedicated auditor commits a continueor-alarm verdict at every step of an unfolding trajectory, as illustrated in Figure 1(b). Concretely,
+instead of inspecting a completed trajectory with full hindsight, the auditor sees only the current prefix
+at each step and must judge it without access to future steps, tool responses, or the eventual outcome.
+This reframe turns failure analysis from a passive post-hoc diagnosis of completed runs into an active
+safeguard that can intervene before downstream propagation locks in the failure. Operationalizing
+it places two new demands on the auditor: ① it must reliably separate prefixes that are still safe
+from those already past a decisive error, and ② it must commit at the very step the error occurs,
+not in hindsight. Both demands exceed what existing failure-attribution data or models can provide,
+motivating the creation of both a new dataset and a dedicated training recipe.
+To instantiate this formulation, we develop AgentForesight, a framework that addresses these two
+demands through a dedicated dataset and a coarse-to-fine training recipe. We first construct AFT RAJ 2K, a curated corpus of agentic trajectories spanning Coding, Math, and Agentic domains, pairing
+safe trajectories retained under a strict filtering pipeline with failure trajectories annotated at their
+decisive error step under multi-judge voting verification. Building on the curated dataset, we finetune Qwen2.5-7B-Instruct via reinforcement learning to obtain AgentForesight-7B, a compact online
+auditor first equipped with a risk-anticipation prior at the failure boundary on adjacent safe/unsafe
+prefix pairs, then sharpened into precise step-level localization under a three-axis reward jointly
+targeting the structure of verdict (what), the timing of alarm (where), and the responsible agent (who).
+Together, AgentForesight-7B runs alongside off-the-shelf multi-agent systems and issues step-level
+continue-or-alarm verdicts on unfolding trajectories, without retraining the underlying agentic system.
+2
+
+We extensively evaluate AgentForesight-7B on AFT RAJ -2K and the external Who&When [63]
+benchmark, where it surpasses both its Qwen2.5-7B-Instruct base model and leading proprietary
+judges including GPT-4.1 and DeepSeek-V4-Pro, achieving +19.9% higher Exact-F1 and 3× lower
+step localization error than the strongest proprietary baseline. These gains confirm that our coarse-tofine recipe yields a compact online auditor that outperforms much larger proprietary judges under the
+prefix-restricted online setting. We summarize our contributions as follows:
+• We introduce online auditing, a deployment-time reframing of agentic failure analysis that audits
+unfolding trajectories step by step rather than diagnosing them after failure (Section 2).
+• We construct AFT RAJ -2K, a curated corpus of agentic trajectories spanning Coding, Math, and
+Agentic domains, pairing strictly filtered safe runs with multi-judge verified failure runs annotated
+at their decisive error step (Section 3.1).
+• We develop AgentForesight-7B, a compact online auditor trained via a coarse-to-fine RL recipe
+that first equips it with a risk-anticipation prior at the failure boundary, then sharpens this prior into
+precise step-level localization under the structure, timing, and attribution optimization (Section 3.2).
+• We empirically show that AgentForesight-7B surpasses its base model and leading proprietary
+judges on AFT RAJ -2K and Who&When benchmark (Section 4).
+
+2
+
+Problem Formulation
+
+We formalize the problem of monitoring multi-agent failures under two settings: ① post-hoc failure
+attribution, the prevailing setup in prior work [63, 62, 67], and ② online auditing, the deployment-time
+formulation we introduce. We first define the shared trajectory model and decisive error, then specify
+the formal setup for each setting, and close with a contrast clarifying the scope of our contribution.
+Multi-Agent Trajectory. We model a multi-agent execution as a turn-based system M =
+(S, N , πsys , Ψ, Ω), where S is the set of system states, N is the finite set of agent roles (e.g., Planner,
+WebAgent, CodeWriter), πsys is the system policy that produces the next turn given the current
+state, Ψ is the state-update function, and Ω : T → {0, 1} is the binary outcome function that judges
+a completed trajectory against the task specification (Ω(τ ) = 1 for success, 0 for failure), with T
+denoting the space of finite trajectories. The observed trajectory of M is a sequence of turns,
+τ = (t0 , t1 , . . . , tN −1 ),
+
+ti = (rolei , actioni , contenti ),
+
+(1)
+
+where N is the trajectory length, rolei ∈ N identifies the agent at turn ti , and the pair
+(actioni , contenti ) records its action together with the resulting observable content.
+Decisive Error. Following [63, 62], we adopt the decisive error, whose correction would have
+flipped the trajectory outcome from failure to success, as the operational unit of failure analysis.
+Definition 2.1 (Decisive error) For a failure trajectory τ with Ω(τ ) = 0, let τ + := τ0:k−1 ⊕ t̃
+denote the prefix with step k replaced by an admissible correction t̃. The decisive error step is
+
+k ∗ = min k ∈ [T ] : ∃ t̃ ∈ Tk (τ0:k−1 ), τ̃ ∈ RM (τ + ), Ω(τ + ⊕ τ̃ ) = 1 ,
+(2)
+where Tk (τ0:k−1 ) is the set of admissible correct turns at position k, and RM (·) is the set of suffix
+trajectories reachable from a corrected prefix under the system policy πsys . Intuitively, k ∗ is the
+earliest step whose error cannot be recovered by any downstream rollout under πsys , so that an oracle
+correction at k ∗ is both necessary and sufficient to salvage the trajectory. We call a∗ = rolek∗ the
+responsible agent, and annotate failed trajectory with (k ∗ , a∗ ), while successful ones with (SAFE, ∅).
+Post-hoc Failure Attribution. Prior methods [63, 62, 67] take a completed failure trajectory τ
+together with its terminal outcome Ω(τ ) = 0 as input, and emit a single retrospective prediction:
+ŷpost = fpost (τ ) = (k̂, â) ∈ {0, . . . , N −1} × N .
+
+(3)
+
+Three properties characterise this setup: (i) full hindsight over τ and Ω(τ ); (ii) single-shot output;
+(iii) prediction occurs after the failure has materialized, leaving no intervention window.
+3
+
+Online Auditing. Online auditing reframes failure analysis as a deployment-time decision, where
+an auditor runs alongside the multi-agent system at every step and decides, on prefix evidence alone,
+whether to allow execution to continue.
+Definition 2.2 (Online auditing) Let τ0:k = (t0 , . . . , tk ) denote the prefix of τ up to turn tk . An
+online auditor is a function
+
+ŷk = fonline (τ0:k ) ∈ {C ONTINUE} ∪ {A LARM} × {0, . . . , k} × N ,
+(4)
+applied at each step k = 0, . . . , N −1. A C ONTINUE verdict signals that no decisive error has yet
+been observed in the visible window, while an A LARM verdict halts execution and reports a predicted
+decisive error step k̂ ∈ {0, . . . , k} together with the predicted responsible agent â ∈ N .
+The setup inverts the three post-hoc properties: (i) only prefix-restricted information, with no access
+to tk+1:N −1 or the terminal label; (ii) per-step output, N verdicts per trajectory; (iii) an A LARM at
+step k creates an intervention window before tk+1 is committed. Directly applying fpost to each prefix
+is ill-posed, since they are trained assuming that Ω(τ ) = 0 is observed, which fails on a live prefix.
+
+3
+
+Methodology
+
+In this section, we present AgentForesight, a framework that operationalizes the demands of online
+auditing through (1) a curated corpus AFT RAJ -2K supplying prefix-level supervision (Section 3.1),
+and (2) a coarse-to-fine training recipe producing the compact online auditor AgentForesight-7B
+(Section 3.2). Detailed pseudocode for both components is provided in Appendix A.
+3.1
+
+AFT RAJ -2K: A Curated Corpus for Online Agentic Auditing
+
+The online-auditing setup of Definition 2.2 demands training data with three properties absent from
+existing failure-attribution corpora: (i) per-step ground truth (k ∗ , a∗ ) for unsafe trajectories, (ii)
+verified safe trajectories that admit prefix-restricted supervision at every step, and (iii) coverage across
+heterogeneous multi-agent frameworks and task domains. Existing open-source benchmarks fall
+short on at least one of these axes. Who&When [63] provides step-level decisive-error annotations
+but contains only failed trajectories, leaving the safe regime unsupervised; ATBench [25] includes
+both safe and unsafe trajectories but focuses on safety-specific tasks and supplies only trajectory-level
+labels. We therefore construct AFT RAJ -2K, a unified corpus of multi-agent trajectories collected,
+filtered, and annotated for online auditing. Figure 2(a) illustrates the construction pipeline.
+Trajectory Collection. We instantiate multi-agent systems on a suite of off-the-shelf frameworks [53, 17, 41] and run them on tasks spanning mathematical reasoning [16], code generation [29],
+and open-ended agentic problem solving [57, 33]. This diversity in role decompositions, tool stacks,
+and task structure promotes broad coverage of multi-agent dynamics rather than the idiosyncrasies
+of any single system. Each rollout yields a turn-level trajectory τ ∈ T as defined in Eq. 1, scored
+by the outcome function Ω : T → {0, 1} against the reference solution. The raw pool of collected
+trajectories then partitions into two disjoint subsets,
+Dsucc = {τ | Ω(τ ) = 1},
+
+Dfail = {τ | Ω(τ ) = 0},
+
+(5)
+
+which feed the two parallel branches of the construction pipeline: Dsucc supplies the source for
+verified safe trajectories, while Dfail together with controlled error injection on Dsucc yields failure
+trajectories with decisive-error annotations. Source-level details are deferred to Appendix B.3.
+Curating Verified Safe Trajectories. A trajectory τ ∈ Dsucc is not automatically safe 1 at every
+step in the sense of Definition 2.2, since a silent intermediate error may be masked by a downstream
+agent’s recovery, or by permissive evaluation criteria that flip Ω(τ ) to 1 despite locally degenerate
+turns. Treating such trajectories as positive supervision would teach the auditor to issue C ONTINUE
+on prefixes that contain warning signs it should learn to flag, directly undermining the prefix-restricted
+1We use safe to refer to trajectories that complete successfully without containing any step whose correction would have
+
+changed the outcome (Definition 2.1), which is distinct from the safety/alignment usage in RLHF literature.
+
+4
+
+(a) AFTraj-2K Construction Pipeline
+Successful Trajectories
+
+(b) Training AgentForesight
+Failed Trajectories
+
+LLM-based Agent Execution Pool
+
+Stage 1: Failure Boundary Alignment
+
+System
+Web Agent
+
+Step 1
+
+Step 2 ··· Step T
+
+MetaGPT
+
+Smolagents
+
+Step 1
+
+Dataset
+
+Planner
+
+Step 1
+
+Step 2 ···
+
+Filtering Pipeline
+Task cuccess
+
+Coding
+
+LLM-as-a-Judge Annotation
+fault
+injection
+
+2 ··· Step T
+Step 1 Step
+devil.png
+
+Stage 2: Three-Axis Reward with RL
+Rollout Output
+
+Step 1 ··· Step
+K ··· Step T
+devil.png
+Step K is error
+Verify
+
+Step 1
+
+Step 2 ···
+ERR
+devil.png
+
+Judge 1
+vote
+
+··· Step T
+
+Judge 2
+vote
+
+Judge 3
+vote
+
+Multi-LLM Voting
+
+Pass
+Voting
+
+AFTraj-2K
+
+Step 2 ··· Step K
+
+Step 1
+
+Agentic
+
+Tool call validity
+
+A unified curated corpus
+for online agentic auditing
+
+>
+
+Aligns the auditor to the failure boundary
+
+Math
+
+Decisive Error Injection
+
+Output quality
+
+Step
+K-1
+
+Step 2 ··· Step T
+
+Reporter
+
+Multi-Agent System
+
+Prefix including decisive error
+
+Prefix before decisive error
+
+AutoGen
+
+···
+
+Reward Design
+
+<think>
+Walk through the traj step-by-step…
+The decisive error is in Step 4…
+</think>
+<answer>
+{
+“answer”: 4,
+“agent”: Manager,
+“suggested_fix”: Manager should…
+}
+</answer>
+
+!$%&'()
+Schema
+JSON
+Grounding
+
+What
+
+!*)+,
+!"#(−
+
+!(-+.)
+
+=
+≠
+
+&
+(' − ' ∗ )"
+)
+2* "
+
+Where
+
+Who
+
+Sharpens timing (where), aligns attribution (who),
+enforces structure (what)
+
+AgentForesight-7B
+Step 1
+
+Step 2 ··· Step T
+
+Verified Successful Trajs
+
+Step 1
+
+Step 2 ··· ERR
+
+Step K ··· Step T
+
+Failed Trajs with Decisive Error Step
+
+A compact online auditor
+Input: pxrefix !!…#
+
+Continue
+
+Output: continue/alarm @ step k
+
+Alarm
+
+Figure 2: Overview of AgentForesight. (a) The AFT RAJ -2K construction pipeline collects trajectories from
+off-the-shelf multi-agent systems across multiple domains, retains successful runs through a strict filtering
+pipeline, and produces failure runs via decisive-error injection and multi-judge voting verification. (b) A
+coarse-to-fine training recipe that first equips the auditor with a risk-anticipation prior on adjacent safe/unsafe
+prefix pairs, then sharpens it into precise step-level localization under a three-axis reward targeting what, where,
+who of an audit verdict. The resulting auditor issues per-step C ONTINUE or A LARM verdicts on prefix evidence.
+
+supervision online auditing demands. We therefore apply a three-stage filtering pipeline of binary
+predicates ϕj : T → {0, 1} to retain only trajectories that are safe at every prefix,
+
+Dsafe = τ ∈ Dsucc ϕj (τ ) = 1, ∀j ∈ F , F = {outcome, integrity, coherence}, (6)
+where ϕoutcome enforces strict outcome equivalence against the reference, ϕintegrity rejects trajectories
+with any invalid tool invocation, and ϕcoherence verifies that each turn remains aligned with the declared
+sub-goal under an LLM judge. Each τ ∈ Dsafe is treated as carrying the label (S AFE, ∅) at every
+prefix τ0:k , providing the positive-class supervision absent from prior failure-attribution corpora.
+Constructing Failure Trajectories with Decisive Error Annotations. The training signal
+(τ, k ∗ , a∗ ) required by online auditing demands both the existence of a verified failure and steplevel localization of its decisive error, neither of which is reliably extractable from naive sources. We
+obtain this signal from two complementary streams that together cover distinct failure distributions.
+The constructive stream operates on safe trajectories with by-construction ground truth, while the
+diagnostic stream operates on naturally-failed trajectories whose decisive step must be discovered.
+Building on the paradigm of [62], the constructive stream applies controlled decisive error injection
+to verified safe trajectories, mirroring the counterfactual structure of Definition 2.1. Starting from
+τ ∈ Dsafe , we sample an injection step kinj ∈ {1, . . . , |τ |−2} and a fault category c ∈ C, generate a
+faulty turn t̃kinj ∼ πfault (· | τ0:kinj −1 , c), and re-roll the system M forward to obtain
+
+τ̃ = τ0:kinj −1 ⊕ t̃kinj ⊕ τ̃>kinj ,
+τ̃>kinj ∼ Roll M, τ0:kinj −1 ⊕ t̃kinj ,
+(7)
+where πfault is realized by complementary turn-rewriting and live-replay variants suited to shorthorizon and tool-augmented domains respectively. A post-injection check rejects candidates whose
+Ω(τ̃ ) = 1 (downstream agents recovered) or whose targeted turn was not actually modified, after
+inj
+which each accepted sample is admitted to Dfail
+with verified label (k ∗ , a∗ ) = (kinj , akinj ). The
+diagnostic stream operates on τ ∈ Dfail , where the decisive error occurs at some unknown step
+in τ but must be localized. We adopt a propose-and-verify ensemble designed to be strictly more
+conservative than single-round majority voting. A pool of P proposer calls returns candidate steps and
+their responsible agents, and each unique candidate is then re-checked by V verifier calls along four
+binary criteria (sexists , ssubstantive , sdecisive , searliest ). A candidate is admitted if and only if its support
+count, i.e., the number of verifiers under which all four criteria hold, exceeds the majority threshold,
+n
+o
+PV Q (j)
+nat
+Dfail
+= (τ, kcand , akcand )
+s
+≥
+⌊V
+/2⌋
++
+1
+,
+(8)
+r
+j=1
+r
+where r ranges over the four criteria above; the highest-strict-support candidate is then selected
+per τ , with ties broken by verifier confidence. The final unsafe pool combines the two streams,
+inj
+nat
+Dunsafe = Dfail
+∪ Dfail
+, providing the step-level decisive-error supervision required by online auditing.
+5
+
+Curated Dataset. Pooling the verified-safe and verified-unsafe streams constructed above yields a
+unified corpus that supplies (S AFE, ∅) labels on every prefix of safe trajectories Dsafe , and (k ∗ , a∗ )
+labels at the decisive step of unsafe trajectories Dunsafe . We refer to this corpus as AFT RAJ -2K,
+comprising ∼2.3K high-fidelity annotated safe and unsafe trajectories, formally DAFT RAJ = Dsafe ∪
+Dunsafe . Detailed composition statistics and qualitative samples are presented in Appendix B.1 and F.
+3.2
+
+Training AgentForesight-7B: A Coarse-to-Fine Recipe
+
+Although AFT RAJ -2K supplies the per-step labels (k ∗ , a∗ ), training a base LLM πθ0 to act as an
+online auditor fonline faces two coupled obstacles: πθ0 has no internal sense of the safe-versus-unsafe
+boundary, and even with that boundary, it still needs to localize the decisive step and responsible
+agent within the unsafe regime. A single-stage policy-gradient attempt collapses to predicting S AFE
+on every prefix, since the precision-targeting reward signal is too sparse to establish either capability
+from scratch. We therefore train Qwen2.5-7B-Instruct with a coarse-to-fine recipe that decouples the
+two: Stage 1 (BPPO) equips the auditor with a risk-anticipation prior at the failure boundary, and
+Stage 2 sharpens this prior into precise step-level localization under a three-axis reward optimized
+by Group Relative Policy Optimization (GRPO) [15]. Together the two stages operationalize the
+prefix-restricted discrimination and step-level timeliness demands of online auditing in Section 2.
+Stage 1: Failure-Boundary Alignment. For every unsafe trajectory (τ, k ∗ , a∗ ) ∈ Dunsafe , we
+construct two boundary-pair prompts that differ by exactly one turn at the decisive step: the preboundary prompt τ0:k∗ −1 with optimal verdict C ONTINUE, and the post-boundary prompt τ0:k∗ with
+optimal verdict A LARM on step k ∗ with responsible agent a∗ . The two prompts share a similar form
+but demand logically reversed verdicts, isolating the failure boundary as the salient signal an auditor
+must learn. By learning this sharp transition, the auditor acquires an implicit risk-anticipation prior
+at the failure boundary: training instills the discriminative signal that separates prefixes immediately
+preceding a decisive error from those still in the safe regime. To turn this paired-prompt contrast
+into a learning signal, we propose Boundary-Pair Preference Optimization (BPPO), a preferenceoptimization [40] variant tailored to the boundary-pair structure with two designs: (i) chosen and
+rejected responses are sampled from base-policy rollouts and classified by their parsed verdicts, (ii)
+the data are partitioned Dpair = DBS ∪ DBE by prompt position and two subsets are optimized jointly,
+h
+X
+i
+LBPPO (πθ ; πref ) = −
+E(x, v∗ , v)∼Dc log σ β ∆θ (x, v ∗ , v) ,
+(9)
+c∈{BS, BE}
+∗
+
+|x)
+πθ (v|x)
+where ∆θ (x, v ∗ , v) = log ππrefθ (v
+(v ∗ |x) − log πref (v|x) is the implicit-reward margin between the optimal
+∗
+verdict v and a rejected verdict v, with πθ (v | x) denoting the autoregressive probability of producing
+a response with parsed verdict v under the structured-verdict format of Eq. 4. The class-conditioned
+datasets carry DBS : x = τ0:k∗ −1 , v ∗ = C ONTINUE, v ̸= C ONTINUE; and DBE : x = τ0:k∗ ,
+v ∗ = (A LARM, k ∗ , a∗ ), v ̸= v ∗ . Since the two subsets differ at tk∗ , jointly minimizing LBPPO forces
+πθ to flip its verdict at the decisive step, yielding BPPO checkpoint πθ1 as initialization for Stage 2.
+
+Stage 2: Three-Axis Verdict Sharpening. Stage 2 sharpens this risk-anticipation prior into
+precise step-level localization under a reward operationalizing the structural, temporal, and causal
+dimensions of an audit verdict. Each rollout produces a structured verdict <think>· · · </think>
+<answer>ŷ</answer>, where ŷ = (k̂, â, r̂) carries the predicted decisive step, responsible agent,
+and a brief reason describing what went wrong; for S AFE verdicts, k̂ holds the S AFE label and
+â, r̂ are null. We score each rollout against ground truth y ∗ = (k ∗ , a∗ ) along three orthogonal
+axes corresponding to the what, where, and who. The structural axis (what) is a binary format gate
+G(ŷ) ∈ {0, 1} that screens schema validity, JSON well-formedness, and content grounding. The
+temporal axis (where) scores step-localization fidelity by a gaussian centered at the ground truth step,
+!
+∗ 2
+(
+k̂
+−
+k
+)
+rstep (k̂, k ∗ ) = exp −
+.
+(10)
+2
+2σstep
+The causal axis (who) scores ragent (â, a∗ ) at full credit on exact role match and a partial credit on
+mismatch. The three axes compose into a class-symmetric reward through a gated form,
+
+R(ŷ, y ∗ ) = G(ŷ) · Rcontent (ŷ, y ∗ ) − ηG · 1 − G(ŷ) ,
+(11)
+6
+
+where Rcontent returns +1 for correctly-flagged S AFE prefixes, ws rstep + wa ragent (with ws + wa = 1)
+for correctly-flagged A LARM prefixes, and −1 for cross-class errors. The class-symmetric ±1 design
+prevents class-bias drift during training, while the soft penalty −ηG on format violations preserves
+gradient signal during the early phase before the policy learns the schema.
+We optimize R via GRPO, applying two adaptations specific to our coarse-to-fine setup: (i) we anchor
+the reference policy πref at the Stage 1 BPPO checkpoint πθ1 so that the KL regularizer pulls πθ back
+toward the risk-anticipation prior learned in Stage 1; (ii) we estimate the KL divergence with the
+low-variance k3 estimator D̂KL (πθ ∥πref ) [44], which is non-negative by construction and reduces
+gradient noise on long-trajectory rollouts. With these adaptations, the RL objective is formulated as:
+h
+i
+
+LGRPO (θ) = − E min ρj,t (θ) Aj , clip(ρj,t (θ), 1 − ϵ, 1 + ϵ) Aj + βKL D̂KL πθ ∥ πθ1 , (12)
+with token-level importance ratio ρj,t (θ) and πref anchored at πθ1 to prevent drift from the riskanticipation prior. Together, the two stages produce AgentForesight-7B, a compact online auditor
+fonline that combines a risk-anticipation prior with precise step-level localization, issuing per-step
+C ONTINUE/A LARM verdicts on unfolding multi-agent trajectories.
+
+4
+
+Experiments
+
+4.1
+
+Experimental setups
+
+Datasets. We evaluate AgentForesight-7B under the strict online auditing protocol of Definition 2.2
+on two datasets. (1) AFT RAJ -2K held-out split. AFT RAJ -2K is curated from off-the-shelf multiagent frameworks (AutoGen [53], MetaGPT [17], Smolagents [41]) on three representative task
+corpora, namely Math (MATH-500 [16]), Coding (HumanEval+ and MBPP+ [29]), and Agentic
+(GAIA [33], HotpotQA [57]). We hold out 15% of AFT RAJ -2K under a trajectory-grouped split that
+places each safe trajectory and its injected unsafe variants in the same partition to prevent train-test
+leakage, and report per-domain plus overall results. (2) Who&When [63], an established external
+benchmark for multi-agent failure attribution whose trajectories are disjoint from AFT RAJ -2K,
+evaluating cross-construction generalization beyond our AFT RAJ -2K held-out test split.
+Baselines. We compare AgentForesight-7B against three baseline categories. (1) Open-source
+small LLMs: Llama-3.2-3B [13], Gemma-3-4B [10], Qwen2.5-7B-Instruct, Qwen3-8B [56], Qwen332B. (2) Proprietary LLMs: GPT-4.1 [36], Gemini-3-Flash [7], Claude-Haiku-4.5 [1], DeepSeekV4-Flash, DeepSeek-V4-Pro [6]. (3) Methodological baselines: four paradigms instantiated on
+the same Qwen2.5-7B-Instruct to isolate paradigm effects from backbone capability, including
+uncertainty quantification (Perplexity-7B [8]), tree-search prompting (ToT-7B [58]), self-reflection
+(Reflexion-7B [48]), and post-hoc failure attribution (AgentDebug-7B [67]). All baselines except
+AgentDebug-7B follow our online auditing protocol; AgentDebug-7B observes the full completed
+trajectory and serves as a reference for the gap between post-hoc attribution and online auditing.
+Metrics. Online auditing requires exact localization of the first decisive error rather than mere
+binary detection. We adopt two complementary metrics: Exact-Step F1 (Exact-F1↑) is the harmonic
+mean of step-level recall and precision on decisive-step predictions, penalizing both missed errors and
+wrong localizations. Absolute Step Shift (ASS↓) averages |k̂ − k ∗ | over detected unsafe trajectories,
+remaining informative when alarms miss the exact step. See Appendix B.2 for detailed definitions.
+Implementation Details. We instantiate AgentForesight-7B from Qwen2.5-7B-Instruct [56] and
+train it on AFT RAJ -2K following the coarse-to-fine recipe of Section 3.2. Training uses verl [46]
+on 2×NVIDIA H200 GPUs with vLLM-accelerated rollouts. Stage 1 uses BPPO with β = 0.1
+(cf. Eq. 9), learning rate 5×10−7 , and 3 epochs; Stage 2 uses GRPO with group size G = 8, KL
+coefficient βKL = 10−3 , and learning rate 10−6 (cf. Eq. 12). During evaluation, we follow a strict
+step-by-step incremental walk: the auditor is queried at every prefix τ0:k with greedy decoding, and
+both safe and unsafe trajectories are walked through their full length to surface any false alarm.
+We provide detailed experimental setups in Appendix B.
+7
+
+Table 1: Online auditing evaluation on the AFT RAJ -2K. Both safe and unsafe samples are evaluated under the
+
+online auditing protocol of Section 2. Bold = best results, underline = second-best results. † AgentDebug-7B
+detects zero unsafe trajectories with no step-shift samples to average. We use "—" to mark its ASS as undefined.
+Method
+Open-Source LLMs
+Llama3.2-3B
+Gemma3-4B
+Qwen2.5-7B-Instruct
+Qwen3-8B
+Qwen3-32B
+Proprietary LLMs
+GPT-4.1
+Gemini-3-Flash
+Claude-Haiku-4.5
+DeepSeek-V4-Flash
+DeepSeek-V4-Pro
+Qwen2.5-7B-Instruct based
+Perplexity-7B [8]
+ToT-7B [58]
+Reflexion-7B [48]
+AgentDebug-7B† [67]
+AgentForesight-7B (ours)
+
+4.2
+
+Math
+
+Coding
+
+Agentic
+
+Overall
+
+Exact-F1↑
+
+ASS↓
+
+Exact-F1↑
+
+ASS↓
+
+Exact-F1↑
+
+ASS↓
+
+Exact-F1↑
+
+ASS↓
+
+8.14
+1.15
+10.39
+21.95
+18.63
+
+4.86
+5.78
+3.80
+4.65
+4.07
+
+21.05
+12.90
+38.20
+27.85
+20.00
+
+2.94
+4.59
+2.26
+2.57
+2.83
+
+16.13
+8.29
+14.00
+33.64
+40.00
+
+2.30
+3.04
+2.96
+1.57
+1.59
+
+14.41
+6.92
+21.05
+28.36
+26.91
+
+3.38
+4.37
+2.75
+2.65
+2.82
+
+24.39
+40.52
+19.75
+42.77
+50.34
+
+3.95
+2.48
+4.12
+2.78
+2.60
+
+10.81
+19.42
+23.91
+38.10
+49.32
+
+3.50
+2.73
+2.80
+1.27
+0.96
+
+40.68
+26.09
+31.95
+32.53
+41.77
+
+1.29
+1.70
+1.69
+1.42
+1.31
+
+27.43
+29.74
+25.53
+37.65
+46.56
+
+2.67
+2.19
+2.85
+1.94
+1.77
+
+2.31
+20.38
+16.57
+0.00
+77.36
+
+4.09
+4.40
+4.39
+—
+0.96
+
+26.56
+7.02
+9.52
+28.57
+78.87
+
+2.19
+4.06
+4.50
+4.05
+0.18
+
+16.57
+24.84
+39.13
+2.82
+48.70
+
+2.50
+2.13
+1.44
+1.00
+0.54
+
+14.11
+18.52
+23.38
+9.63
+66.44
+
+3.02
+3.39
+3.17
+3.76
+0.59
+
+Main results
+
+Performance comparison on AFT RAJ -2K. Table 1 reports the performance comparison on
+AFT RAJ -2K across three domains. Overall, AgentForesight-7B reaches 66.44 Exact-F1, 19.88 points
+above the strongest proprietary baseline DeepSeek-V4-Pro, and tightens overall ASS from 1.77 to
+0.59 (3×). Per-domain, AgentForesight-7B performs better on both Exact-F1 and ASS in every
+domain, with the largest Exact-F1 gains on Math (77.36 vs. 50.34) and Coding (78.87 vs. 49.32). The
+coarse-to-fine recipe of Section 3.2 lifts the Qwen2.5-7B-Instruct backbone by 3.16× on Exact-F1,
+while AgentDebug-7B, the post-hoc reference with full-trajectory hindsight, ranks lowest at 9.63
+overall Exact-F1. These results show that AgentForesight’s gains stem from its coarse-to-fine recipe
+tailored to online auditing, not from scaling backbones or re-purposing existing post-hoc attributors.
+Generalization to external benchmark. Agent- Table 2: Online auditing evaluation on the
+Foresight-7B further transfers to the external Who&When [63] benchmark. All evaluated unWho&When benchmark (Table 2), whose trajec- der the online auditing protocol of Definition 2.2
+tories come from multi-agent frameworks disjoint
+Step-Acc Agent-Acc ASS
+from AFT RAJ -2K. It leads all three metrics, ex- Model
+ceeding the strongest baseline GPT-4.1 by 19.59
+Llama3.2-3B
+28.57
+47.62
+2.57
+Gemma3-4B
+6.98
+18.60
+3.09
+points on Step-Acc and 6.41 on Agent-Acc, and
+36.59
+58.54
+2.41
+Qwen2.5-7B-Instruct
+reducing ASS from 2.35 (DeepSeek-V4-Flash) to
+Qwen3-8B
+29.41
+55.88
+2.79
+1.62. Since these trajectories are entirely unseen at
+GPT-4.1
+38.10
+66.67
+2.38
+training time, the transfer indicates that AgentFore- Gemini-3-Flash
+32.56
+53.49
+2.47
+sight-7B captures online auditing signal that gener- DeepSeek-V4-Flash
+37.21
+65.12
+2.35
+alizes beyond AFT RAJ -2K’s framework choices
+AgentForesight-7B (ours)
+57.69
+73.08
+1.62
+rather than overfitting to its curation artifacts.
+4.3
+
+Ablation and Further Analysis
+
+Stage-wise contributions to AgentForesight performance. Figure 3 ablates the two stages of our
+coarse-to-fine recipe on the Qwen2.5-7B-Instruct base. Each stage individually lifts Exact-F1 from
+the base 21.1 (Stage 1 to 35.6, Stage 2 to 50.4), and combining them yields 66.4 for AgentForesight7B, exceeding either single stage by at least 16 points. The breakdown reveals a clear division of
+labor: Stage 2 alone already handles Math (63.6) and Coding (72.7) where decisive errors are sharply
+localizable, but degrades on Agentic (19.0, below Stage 1 alone at 31.6) where the failure boundary
+is harder to discriminate. With the risk-anticipation prior of Stage 1 in the full recipe, Agentic domain
+8
+
+Base
+
+80
+
++67.0
+77.4
+
+Stage 1
+
+Stage 2
+
+Stage 1+2 (ours)
+
++40.7
+78.9
+
+Exact-F1 (%) ↑
+
++45.4
+66.4
+
+63.6
+
+60
+
++34.7
+48.7
+38.2
+
+50.4
+
+38.2 38.0
+
+35.6
+31.6
+
+19.0
+
+20
+
+AgentForesight-7B (ours)
+
+60
+
+72.7
+
+40
+
+deployable
+
+70
+
+Step Accuracy (%) ↑
+
+100
+
+DeepSeek-V4-Pro
+50
+
+DeepSeek-V4-Flash
+
+40
+
+Gemini-3-Flash
+
+Qwen2.5-7B-it
+
+GPT-4.1
+Qwen3-8B
+
+Claude-Haiku-4.5
+
+30
+
+better
+
+Llama3.2-3B
+
+20
+
+21.1
+
+Gemma3-4B
+10
+
+14.0
+10.4
+
+0
+0
+
+0
+
+Math
+
+Coding
+
+Agentic
+
+20
+
+Overall
+
+Figure 3: Ablation of the two-stage coarse-to-
+
+40
+
+60
+
+False Alarm Rate (%) ↓
+
+80
+
+100
+
+Figure 4: Deployment trade-off across all auditors on
+AFT RAJ -2K with False Alarm Rate↓ (Dsafe ) vs. Step
+Accuracy↑ (Dunsafe ) and a shaded deployable region.
+
+fine recipe on AFT RAJ -2K, comparing +Stage 1,
++Stage 2, and the full two-stage AgentForesight-7B.
+
+recovers to 48.70. This validates the predict-then-localize coupling, with Stage 1 establishing a
+learnable failure boundary that Stage 2 sharpens to step-level precision.
+Deployment trade-off between false alarms and step localization. A deployable online auditor
+must place alarms accurately while rarely interrupting safe trajectories. Figure 4 traces this tradeoff, plotting Step Accuracy (on Dunsafe ) against False Alarm Rate (FAR on Dsafe , fraction of safe
+trajectories with any raised alarm). We further mark a deployable region at FAR ≤ 20% and StepAcc ≥ 50%, the operating point at which downstream triage or recovery routing remains tractable.
+Among the ten auditors compared, only AgentForesight-7B (FAR = 2.4%, Step-Acc = 59.5%) lies
+inside this region. The strongest proprietary baseline on both axes, DeepSeek-V4-Pro (FAR = 43.2%,
+Step-Acc = 54.0%), falls just outside, while other proprietary judges and open-source 7–8B base
+models concentrate at high FAR with mid Step-Acc and the 3–4B LLMs collapse to near-universal
+false alarms. The gap is consistent with our coarse-to-fine recipe, where Stage 1’s risk-anticipation
+prior suppresses spurious alarms and Stage 2’s three-axis reward sharpens alarm placement.
+4.4
+
+Case Study
+
+Where strong baselines miss or misWhich former mill town is near Rivington Hall Barn?
+locate. Figure 5 shows an agentic
+trajectory whose decisive error commits at Step 3, where the search_agent
+returns the wrong town Horwich instead of the gold answer Bolton and Multi-Agent System
+the Manager propagates it to compleDeepSeek-V4-Pro
+Gemini-3-Flash
+AgentForesight-7B
+tion. AgentForesight-7B alone returns
+Prediction: SAFE
+Decisive
+error
+step:
+Step
+2
+Decisive
+error step: Step 5
+Step 5 with search_agent as the re- Decisive error step: None
+Decisive error agent:
+Decisive error agent:
+sponsible agent. The two strong pro- Decisive error agent: None
+prietary baselines fail in opposite directions. Gemini-3-Flash flags Step 2
+on the Manager’s planning thought,
+while DeepSeek-V4-Pro returns S AFE
+after monitoring the whole trajectory. Figure 5: Case study of online auditing, comparing predictions
+This shows that effective online au- from DeepSeek-V4-Pro, Gemini-3-Flash, and AgentForesight-7B.
+diting demands both refraining from
+premature alarms on safe prefixes and detecting decisive errors that strong baselines miss entirely.
+Gold Answer: Bolton
+
+Task Query:
+
+Step 1
+
+Planner
+
+Plan: Barn → location
+
+Manager
+
+→ former mill town
+
+Step 8
+
+Planner
+
+Manager
+
+Step 2
+
+Step 3
+
+Manager
+
+Step 7
+
+Manager
+
+Submission plan:
+
+final_answer("Horwich")
+
+return required code blob
+
+Step 4
+
+Manager
+
+Delegate: identify town
+
+nearby former mill town
+
++ confirm source
+
+Step 6
+
+Step 5
+
+Rivington Hall Barn
+
+Final call:
+
+Manager
+
+Target attribute:
+
+Target place:
+
+Manager
+
+Search Agent
+
+Direct answer:
+
+Search result:
+
+Horwich
+
+Horwich
+
+Search Agent
+
+Manager
+
+At Step 2, the Manager should have
+
+At Step 5, the Search Agent
+
+identify the task, delegate it to
+
+invoked the Search Agent with a
+
+provides “Horwich” as the answer
+
+the Search Agent, receive “Horwich”
+and submit the same answer. There
+
+query such as “former mill town
+
+without supporting evidence. The
+
+near Rivington Hall Barn” instead
+
+Manager then repeats this answer
+
+process failure in the trajectory,
+
+of merely repeating its thought
+
+and submits it as final, so this
+
+so I judge it as SAFE.
+
+process in the content field.
+
+is the decisive error step.
+
+is no visible contradiction or
+
+5
+
+Search Agent
+
+I see the Manager correctly
+
+Conclusion
+
+In this paper, we present AgentForesight, an online auditing perspective on agentic failure analysis,
+recasting it from post-hoc diagnosis of completed trajectories into a per-step continue-or-alarm
+decision on each unfolding prefix. Building on this view, we introduce AFT RAJ -2K, a curated
+corpus pairing strictly filtered safe runs with multi-judge verified decisive error annotations across
+9
+
+Coding, Math, and Agentic domains. We develop AgentForesight-7B, a compact online auditor
+trained via a coarse-to-fine reinforcement learning recipe that first equips it with a risk-anticipation
+prior at the failure boundary on adjacent safe/unsafe prefix pairs and then sharpens this prior into
+precise step-level localization under a three-axis reward jointly targeting the what, where, and who
+of an audit verdict. Extensive experiments on both AFT RAJ -2K and the external Who&When
+benchmark validate the effectiveness of AgentForesight-7B. Beyond advancing online auditing, our
+framework paves the way for runtime safeguards that intervene before downstream propagation locks
+in the failure, marking a step toward deployment-ready oversight of multi-agent systems.
+
+References
+[1] Anthropic.
+Introducing claude haiku 4.5.
+https://www.anthropic.com/news/
+claude-haiku-4-5, October 2025. Accessed: 2026-05-02.
+[2] Bowen Baker, Joost Huizinga, Leo Gao, Zehao Dou, Melody Y Guan, Aleksander Madry,
+Wojciech Zaremba, Jakub Pachocki, and David Farhi. Monitoring reasoning models for
+misbehavior and the risks of promoting obfuscation. arXiv preprint arXiv:2503.11926, 2025.
+[3] Mert Cemri, Melissa Z Pan, Shuyi Yang, Lakshya A Agrawal, Bhavya Chopra, Rishabh Tiwari,
+Kurt Keutzer, Aditya Parameswaran, Dan Klein, Kannan Ramchandran, et al. Why do multiagent llm systems fail? arXiv preprint arXiv:2503.13657, 2025.
+[4] Chi-Min Chan, Weize Chen, Yusheng Su, Jianxuan Yu, Wei Xue, Shanghang Zhang, Jie Fu,
+and Zhiyuan Liu. Chateval: Towards better llm-based evaluators through multi-agent debate.
+arXiv preprint arXiv:2308.07201, 2023.
+[5] Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,
+Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, et al. Training verifiers to
+solve math word problems. arXiv preprint arXiv:2110.14168, 2021.
+[6] DeepSeek-AI. Deepseek-v4: Towards highly efficient million-token context intelligence, 2026.
+[7] Tulsee Doshi. Gemini 3 flash: Frontier intelligence built for speed. https://blog.
+google/products-and-platforms/products/gemini/gemini-3-flash/, December
+2025. Google Blog. Accessed: 2026-05-01.
+[8] Ekaterina Fadeeva, Roman Vashurin, Akim Tsvigun, Artem Vazhentsev, Sergey Petrakov,
+Kirill Fedyanin, Daniil Vasilev, Elizaveta Goncharova, Alexander Panchenko, Maxim Panov,
+et al. Lm-polygraph: Uncertainty estimation for language models. In Proceedings of the 2023
+Conference on Empirical Methods in Natural Language Processing: System Demonstrations,
+pages 446–461, 2023.
+[9] Lang Feng, Zhenghai Xue, Tingcong Liu, and Bo An. Group-in-group policy optimization for
+llm agent training. arXiv preprint arXiv:2505.10978, 2025.
+[10] Gemma Team. Gemma 3 technical report. arXiv preprint arXiv:2503.19786, March 2025.
+[11] Alireza Ghafarollahi and Markus J Buehler. Sciagents: automating scientific discovery through
+bioinspired multi-agent intelligent graph reasoning. Advanced Materials, 37(22):2413523,
+2025.
+[12] Ali Essam Ghareeb, Benjamin Chang, Ludovico Mitchener, Angela Yiu, Caralyn J Szostkiewicz,
+Jon M Laurent, Muhammed T Razzak, Andrew D White, Michaela M Hinks, and Samuel G
+Rodriques. Robin: A multi-agent system for automating scientific discovery. arXiv preprint
+arXiv:2505.13400, 2025.
+[13] Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian,
+Ahmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, et al. The llama
+3 herd of models. arXiv preprint arXiv:2407.21783, 2024.
+[14] Jiawei Gu, Xuhui Jiang, Zhichao Shi, Hexiang Tan, Xuehao Zhai, Chengjin Xu, Wei Li, Yinghan
+Shen, Shengjie Ma, Honghao Liu, et al. A survey on llm-as-a-judge. The Innovation, 2024.
+10
+
+[15] Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Peiyi Wang, Qihao Zhu, Runxin Xu,
+Ruoyu Zhang, Shirong Ma, Xiao Bi, et al. Deepseek-r1: Incentivizing reasoning capability in
+llms via reinforcement learning. arXiv preprint arXiv:2501.12948, 2025.
+[16] Dan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn
+Song, and Jacob Steinhardt. Measuring mathematical problem solving with the math dataset.
+arXiv preprint arXiv:2103.03874, 2021.
+[17] Sirui Hong, Mingchen Zhuge, Jonathan Chen, Xiawu Zheng, Yuheng Cheng, Jinlin Wang,
+Ceyao Zhang, Zili Wang, Steven Ka Shing Yau, Zijuan Lin, et al. Metagpt: Meta programming
+for a multi-agent collaborative framework. In The twelfth international conference on learning
+representations, 2023.
+[18] Jie Huang, Xinyun Chen, Swaroop Mishra, Huaixiu Steven Zheng, Adams Wei Yu, Xinying
+Song, and Denny Zhou. Large language models cannot self-correct reasoning yet. arXiv preprint
+arXiv:2310.01798, 2023.
+[19] Zhenlan Ji, Daoyuan Wu, Pingchuan Ma, Zongjie Li, and Shuai Wang. Testing and understanding erroneous planning in llm agents through synthesized user inputs. arXiv preprint
+arXiv:2404.17833, 2024.
+[20] Carlos E Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik
+Narasimhan. Swe-bench: Can language models resolve real-world github issues? arXiv preprint
+arXiv:2310.06770, 2023.
+[21] Bowen Jin, Hansi Zeng, Zhenrui Yue, Jinsung Yoon, Sercan Arik, Dong Wang, Hamed Zamani, and Jiawei Han. Search-r1: Training llms to reason and leverage search engines with
+reinforcement learning. arXiv preprint arXiv:2503.09516, 2025.
+[22] Neil Kale, Chen Bo Calvin Zhang, Kevin Zhu, Ankit Aich, Paula Rodriguez, Scale Red Team,
+Christina Q Knight, and Zifan Wang. Reliable weak-to-strong monitoring of llm agents. arXiv
+preprint arXiv:2508.19461, 2025.
+[23] Jonathan Kutasov, Yuqi Sun, Paul Colognese, Teun van der Weij, Linda Petrini, Chen Bo Calvin
+Zhang, John Hughes, Xiang Deng, Henry Sleight, Tyler Tracy, et al. Shade-arena: Evaluating
+sabotage and monitoring in llm agents. arXiv preprint arXiv:2506.15740, 2025.
+[24] Guohao Li, Hasan Hammoud, Hani Itani, Dmitrii Khizbullin, and Bernard Ghanem. Camel:
+Communicative agents for" mind" exploration of large language model society. Advances in
+neural information processing systems, 36:51991–52008, 2023.
+[25] Yu Li, Haoyu Luo, Yuejin Xie, Yuqian Fu, Zhonghao Yang, Shuai Shao, Qihan Ren, Wanying
+Qu, Yanwei Fu, Yujiu Yang, et al. Atbench: A diverse and realistic trajectory benchmark for
+long-horizon agent safety. arXiv preprint arXiv:2604.02022, 2026.
+[26] Zhuofeng Li, Haoxiang Zhang, Seungju Han, Sheng Liu, Jianwen Xie, Yu Zhang, Yejin Choi,
+James Zou, and Pan Lu. In-the-flow agentic system optimization for effective planning and tool
+use. arXiv preprint arXiv:2510.05592, 2025.
+[27] Hunter Lightman, Vineet Kosaraju, Yuri Burda, Harrison Edwards, Bowen Baker, Teddy Lee,
+Jan Leike, John Schulman, Ilya Sutskever, and Karl Cobbe. Let’s verify step by step. In The
+twelfth international conference on learning representations, 2023.
+[28] Bang Liu, Xinfeng Li, Jiayi Zhang, Jinlin Wang, Tanjin He, Sirui Hong, Hongzhang Liu,
+Shaokun Zhang, Kaitao Song, Kunlun Zhu, et al. Advances and challenges in foundation agents:
+From brain-inspired intelligence to evolutionary, collaborative, and safe systems. arXiv preprint
+arXiv:2504.01990, 2025.
+[29] Jiawei Liu, Chunqiu Steven Xia, Yuyao Wang, and Lingming Zhang. Is your code generated
+by chatgpt really correct? rigorous evaluation of large language models for code generation.
+Advances in neural information processing systems, 36:21558–21572, 2023.
+11
+
+[30] Shuo Liu, Zeyu Liang, Xueguang Lyu, and Christopher Amato. Llm collaboration with multiagent reinforcement learning. In Proceedings of the AAAI Conference on Artificial Intelligence,
+volume 40, pages 32150–32158, 2026.
+[31] Yang Liu, Dan Iter, Yichong Xu, Shuohang Wang, Ruochen Xu, and Chenguang Zhu. G-eval:
+Nlg evaluation using gpt-4 with better human alignment. In Proceedings of the 2023 conference
+on empirical methods in natural language processing, pages 2511–2522, 2023.
+[32] Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri
+Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, et al. Self-refine: Iterative refinement
+with self-feedback. Advances in neural information processing systems, 36:46534–46594, 2023.
+[33] Grégoire Mialon, Clémentine Fourrier, Thomas Wolf, Yann LeCun, and Thomas Scialom. Gaia:
+a benchmark for general ai assistants. In The Twelfth International Conference on Learning
+Representations, 2023.
+[34] Ning Miao, Yee Whye Teh, and Tom Rainforth. Selfcheck: Using llms to zero-shot check their
+own step-by-step reasoning. arXiv preprint arXiv:2308.00436, 2023.
+[35] Kaiwen Ning, Jiachi Chen, Jingwen Zhang, Wei Li, Zexu Wang, Yuming Feng, Weizhe Zhang,
+and Zibin Zheng. Defining and detecting the defects of large language model-based autonomous
+agents. IEEE Transactions on Software Engineering, 2026.
+[36] OpenAI. Gpt-5 system card. https://openai.com/index/gpt-5-system-card/, August
+2025. System card. Accessed: 2026-05-01.
+[37] Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll Wainwright, Pamela Mishkin,
+Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to
+follow instructions with human feedback. Advances in neural information processing systems,
+35:27730–27744, 2022.
+[38] Charles Packer, Vivian Fang, Shishir_G Patil, Kevin Lin, Sarah Wooders, and Joseph_E Gonzalez. Memgpt: towards llms as operating systems. 2023.
+[39] Chen Qian, Peng Wang, Dongrui Liu, Junyao Yang, Dadi Guo, Ling Tang, Jilin Mei, Qihan
+Ren, Shuai Shao, Yong Liu, et al. The why behind the action: Unveiling internal drivers via
+agentic attribution. arXiv preprint arXiv:2601.15075, 2026.
+[40] Rafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D Manning, Stefano Ermon, and
+Chelsea Finn. Direct preference optimization: Your language model is secretly a reward model.
+Advances in neural information processing systems, 36:53728–53741, 2023.
+[41] Aymeric Roucher, A Villanova del Moral, Thomas Wolf, Leandro von Werra, and Erik Kaunismäki. smolagents: A smol library to build great agentic systems. Hugging Face, 2025.
+[42] Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Eric Hambro,
+Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. Toolformer: Language models can
+teach themselves to use tools. Advances in neural information processing systems, 36:68539–
+68551, 2023.
+[43] Bronson Schoen, Evgenia Nitishinskaya, Mikita Balesni, Axel Højmark, Felix Hofstätter,
+Jérémy Scheurer, Alexander Meinke, Jason Wolfe, Teun van der Weij, Alex Lloyd, et al. Stress
+testing deliberative alignment for anti-scheming training. arXiv preprint arXiv:2509.15541,
+2025.
+[44] John Schulman. Approximating KL divergence. http://joschu.net/blog/kl-approx.
+html, 2020. Blog post.
+[45] Shuai Shao, Qihan Ren, Chen Qian, Boyi Wei, Dadi Guo, Jingyi Yang, Xinhao Song, Linfeng
+Zhang, Weinan Zhang, Dongrui Liu, et al. Your agent may misevolve: Emergent risks in
+self-evolving llm agents. arXiv preprint arXiv:2509.26354, 2025.
+12
+
+[46] Guangming Sheng, Chi Zhang, Zilingfeng Ye, Xibin Wu, Wang Zhang, Ru Zhang, Yanghua
+Peng, Haibin Lin, and Chuan Wu. Hybridflow: A flexible and efficient rlhf framework. In
+Proceedings of the Twentieth European Conference on Computer Systems, pages 1279–1297,
+2025.
+[47] Zeru Shi, Kai Mei, Mingyu Jin, Yongye Su, Chaoji Zuo, Wenyue Hua, Wujiang Xu, Yujie
+Ren, Zirui Liu, Mengnan Du, et al. From commands to prompts: Llm-based semantic file
+system for aios. In International Conference on Learning Representations, volume 2025, pages
+33108–33131, 2025.
+[48] Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao.
+Reflexion: Language agents with verbal reinforcement learning. Advances in neural information
+processing systems, 36:8634–8652, 2023.
+[49] Yoo Yeon Sung, Hannah Kim, and Dan Zhang. Verila: A human-centered evaluation framework
+for interpretable verification of llm agent failures. arXiv preprint arXiv:2503.12651, 2025.
+[50] Peiyi Wang, Lei Li, Zhihong Shao, Runxin Xu, Damai Dai, Yifei Li, Deli Chen, Yu Wu, and
+Zhifang Sui. Math-shepherd: Verify and reinforce llms step-by-step without human annotations.
+In Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics
+(Volume 1: Long Papers), pages 9426–9439, 2024.
+[51] Xingyao Wang, Boxuan Li, Yufan Song, Frank F Xu, Xiangru Tang, Mingchen Zhuge, Jiayi
+Pan, Yueqi Song, Bowen Li, Jaskirat Singh, et al. Openhands: An open platform for ai software
+developers as generalist agents. arXiv preprint arXiv:2407.16741, 2024.
+[52] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le,
+Denny Zhou, et al. Chain-of-thought prompting elicits reasoning in large language models.
+Advances in neural information processing systems, 35:24824–24837, 2022.
+[53] Qingyun Wu, Gagan Bansal, Jieyu Zhang, Yiran Wu, Beibin Li, Erkang Zhu, Li Jiang, Xiaoyun
+Zhang, Shaokun Zhang, Jiale Liu, et al. Autogen: Enabling next-gen llm applications via
+multi-agent conversations. In First conference on language modeling, 2024.
+[54] Zhiheng Xi, Jixuan Huang, Chenyang Liao, Baodai Huang, Honglin Guo, Jiaqi Liu, Rui
+Zheng, Junjie Ye, Jiazheng Zhang, Wenxiang Chen, et al. Agentgym-rl: Training llm agents
+for long-horizon decision making through multi-turn reinforcement learning. arXiv preprint
+arXiv:2509.08755, 2025.
+[55] Zhiheng Xi, Chenyang Liao, Guanyu Li, Zhihao Zhang, Wenxiang Chen, Binghai Wang, Senjie
+Jin, Yuhao Zhou, Jian Guan, Wei Wu, et al. Agentprm: Process reward models for llm agents
+via step-wise promise and progress. In Proceedings of the ACM Web Conference 2026, pages
+4184–4195, 2026.
+[56] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu,
+Chang Gao, Chengen Huang, Chenxu Lv, et al. Qwen3 technical report. arXiv preprint
+arXiv:2505.09388, 2025.
+[57] Zhilin Yang, Peng Qi, Saizheng Zhang, Yoshua Bengio, William Cohen, Ruslan Salakhutdinov,
+and Christopher D Manning. Hotpotqa: A dataset for diverse, explainable multi-hop question
+answering. In Proceedings of the 2018 conference on empirical methods in natural language
+processing, pages 2369–2380, 2018.
+[58] Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Tom Griffiths, Yuan Cao, and Karthik
+Narasimhan. Tree of thoughts: Deliberate problem solving with large language models. Advances in neural information processing systems, 36:11809–11822, 2023.
+[59] Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik R Narasimhan, and Yuan
+Cao. React: Synergizing reasoning and acting in language models. In The eleventh international
+conference on learning representations, 2022.
+[60] Boxuan Zhang, Yi Yu, Jiaxuan Guo, and Jing Shao. Dive into the agent matrix: A realistic
+evaluation of self-replication risk in llm agents. arXiv preprint arXiv:2509.25302, 2025.
+13
+
+[61] Boxuan Zhang and Ruqi Zhang. Cot-uq: Improving response-wise uncertainty quantification in
+llms with chain-of-thought. In Findings of the Association for Computational Linguistics: ACL
+2025, pages 26114–26133, 2025.
+[62] Guibin Zhang, Junhao Wang, Junjie Chen, Wangchunshu Zhou, Kun Wang, and Shuicheng
+Yan. Agentracer: Who is inducing failure in the llm agentic systems? arXiv preprint
+arXiv:2509.03312, 2025.
+[63] Shaokun Zhang, Ming Yin, Jieyu Zhang, Jiale Liu, Zhiguang Han, Jingyang Zhang, Beibin Li,
+Chi Wang, Huazheng Wang, Yiran Chen, et al. Which agent causes task failures and when?
+on automated failure attribution of llm multi-agent systems. arXiv preprint arXiv:2505.00212,
+2025.
+[64] Chujie Zheng, Zhenru Zhang, Beichen Zhang, Runji Lin, Keming Lu, Bowen Yu, Dayiheng
+Liu, Jingren Zhou, and Junyang Lin. Processbench: Identifying process errors in mathematical
+reasoning. In Proceedings of the 63rd Annual Meeting of the Association for Computational
+Linguistics (Volume 1: Long Papers), pages 1009–1024, 2025.
+[65] Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao Zhuang,
+Zi Lin, Zhuohan Li, Dacheng Li, Eric Xing, et al. Judging llm-as-a-judge with mt-bench and
+chatbot arena. Advances in neural information processing systems, 36:46595–46623, 2023.
+[66] Shuyan Zhou, Frank F Xu, Hao Zhu, Xuhui Zhou, Robert Lo, Abishek Sridhar, Xianyi Cheng,
+Tianyue Ou, Yonatan Bisk, Daniel Fried, et al. Webarena: A realistic web environment for
+building autonomous agents. arXiv preprint arXiv:2307.13854, 2023.
+[67] Kunlun Zhu, Zijia Liu, Bingxuan Li, Muxin Tian, Yingxuan Yang, Jiaxun Zhang, Pengrui Han,
+Qipeng Xie, Fuyang Cui, Weijia Zhang, et al. Where llm agents fail and how they can learn
+from failures. arXiv preprint arXiv:2509.25370, 2025.
+[68] Mingchen Zhuge, Wenyi Wang, Louis Kirsch, Francesco Faccio, Dmitrii Khizbullin, and Jürgen
+Schmidhuber. Language agents as optimizable graphs. arXiv preprint arXiv:2402.16823, 2024.
+[69] Mingchen Zhuge, Changsheng Zhao, Dylan Ashley, Wenyi Wang, Dmitrii Khizbullin, Yunyang
+Xiong, Zechun Liu, Ernie Chang, Raghuraman Krishnamoorthi, Yuandong Tian, et al. Agentas-a-judge: Evaluate agents with agents. arXiv preprint arXiv:2410.10934, 2024.
+
+14
+
+Appendices
+A Algorithmic Pipeline
+
+16
+
+B Additional Experiment Setups
+
+17
+
+B.1 Details of Datasets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+17
+
+B.2 Details on Evaluation Metrics . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+18
+
+B.3 Details of Implementations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+18
+
+C Detailed Related Work
+
+21
+
+D Additional Experimental Results
+
+22
+
+D.1 Full Two-Stage Ablation Results . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+23
+
+D.2 Full Deployment Trade-Off Results . . . . . . . . . . . . . . . . . . . . . . . . .
+
+23
+
+D.3 Computational and Cost Analysis . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+23
+
+D.4 Failure Mode Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+24
+
+D.5 Additional Case Study . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+25
+
+E Prompt Templates
+
+25
+
+F Qualitative Examples from AFT RAJ -2K
+
+29
+
+G Discussions
+
+31
+
+G.1 External Auditing vs. Agent Self-Reflection . . . . . . . . . . . . . . . . . . . . .
+
+31
+
+G.2 Limitations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+32
+
+G.3 Broader Impact . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+32
+
+15
+
+
