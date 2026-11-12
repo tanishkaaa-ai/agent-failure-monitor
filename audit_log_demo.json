@@ -1,0 +1,171 @@
+[
+  {
+    "step_idx": 0,
+    "role": "user",
+    "decision": "ALARM",
+    "allow_proceed": true,
+    "ml_risk_prob": 0.6522,
+    "judge_verdict": "ALARM",
+    "judge_category": "PLAN_MISMATCH",
+    "judge_confidence": 0.64,
+    "applied_rule": "UNANIMOUS_ALARM",
+    "decision_rationale": "Both ML model (risk p=0.65) and LLM Judge (PLAN_MISMATCH, confidence=0.64) agree failure is unfolding.",
+    "intervention": {
+      "step_idx": 0,
+      "decision_reason_category": "PLAN_MISMATCH",
+      "action_type": "REPLAN",
+      "status": "APPLIED",
+      "details": "Plan mismatch detected. Re-anchored agent to original user task.",
+      "injected_message": {
+        "role": "system",
+        "thought": "",
+        "action": "",
+        "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+      },
+      "metadata": {}
+    },
+    "injected_feedback": {
+      "role": "system",
+      "thought": "",
+      "action": "",
+      "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+    }
+  },
+  {
+    "step_idx": 2,
+    "role": "MathSolver",
+    "decision": "ALARM",
+    "allow_proceed": true,
+    "ml_risk_prob": 0.6535,
+    "judge_verdict": "ALARM",
+    "judge_category": "PLAN_MISMATCH",
+    "judge_confidence": 0.64,
+    "applied_rule": "UNANIMOUS_ALARM",
+    "decision_rationale": "Both ML model (risk p=0.65) and LLM Judge (PLAN_MISMATCH, confidence=0.64) agree failure is unfolding.",
+    "intervention": {
+      "step_idx": 1,
+      "decision_reason_category": "PLAN_MISMATCH",
+      "action_type": "REPLAN",
+      "status": "APPLIED",
+      "details": "Plan mismatch detected. Re-anchored agent to original user task.",
+      "injected_message": {
+        "role": "system",
+        "thought": "",
+        "action": "",
+        "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+      },
+      "metadata": {}
+    },
+    "injected_feedback": {
+      "role": "system",
+      "thought": "",
+      "action": "",
+      "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+    }
+  },
+  {
+    "step_idx": 4,
+    "role": "environment",
+    "decision": "CONTINUE",
+    "allow_proceed": true,
+    "ml_risk_prob": 0.5047,
+    "judge_verdict": "CONTINUE",
+    "judge_category": "UNKNOWN",
+    "judge_confidence": 0.6,
+    "applied_rule": "JUDGE_TIEBREAKER_CONTINUE",
+    "decision_rationale": "ML model is in ambiguous boundary zone (p=0.50), but LLM Judge or signals do not substantiate an alarm. Safe to proceed.",
+    "intervention": null,
+    "injected_feedback": null
+  },
+  {
+    "step_idx": 5,
+    "role": "MathSolver",
+    "decision": "ALARM",
+    "allow_proceed": true,
+    "ml_risk_prob": 0.5705,
+    "judge_verdict": "ALARM",
+    "judge_category": "PLAN_MISMATCH",
+    "judge_confidence": 0.56,
+    "applied_rule": "JUDGE_TIEBREAKER_ALARM",
+    "decision_rationale": "ML model is in ambiguous boundary zone (p=0.57). LLM Judge acts as tiebreaker and alarms on PLAN_MISMATCH (conf=0.56).",
+    "intervention": {
+      "step_idx": 3,
+      "decision_reason_category": "PLAN_MISMATCH",
+      "action_type": "REPLAN",
+      "status": "APPLIED",
+      "details": "Plan mismatch detected. Re-anchored agent to original user task.",
+      "injected_message": {
+        "role": "system",
+        "thought": "",
+        "action": "",
+        "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+      },
+      "metadata": {}
+    },
+    "injected_feedback": {
+      "role": "system",
+      "thought": "",
+      "action": "",
+      "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+    }
+  },
+  {
+    "step_idx": 7,
+    "role": "MathSolver",
+    "decision": "ALARM",
+    "allow_proceed": true,
+    "ml_risk_prob": 0.6172,
+    "judge_verdict": "ALARM",
+    "judge_category": "PLAN_MISMATCH",
+    "judge_confidence": 0.61,
+    "applied_rule": "UNANIMOUS_ALARM",
+    "decision_rationale": "Both ML model (risk p=0.62) and LLM Judge (PLAN_MISMATCH, confidence=0.61) agree failure is unfolding.",
+    "intervention": {
+      "step_idx": 4,
+      "decision_reason_category": "PLAN_MISMATCH",
+      "action_type": "REPLAN",
+      "status": "APPLIED",
+      "details": "Plan mismatch detected. Re-anchored agent to original user task.",
+      "injected_message": {
+        "role": "system",
+        "thought": "",
+        "action": "",
+        "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+      },
+      "metadata": {}
+    },
+    "injected_feedback": {
+      "role": "system",
+      "thought": "",
+      "action": "",
+      "content": "[SYSTEM]: PLAN DEVIATION: Your current direction is deviating from the goal. Re-anchor to the objective: \"Convert the point $(0,3)$ in rectangular coordinates to polar coordinates.  Enter your answer in the form $(r,\\theta),$ where $r > 0$ and $0 \\le \\theta < 2 \\pi.$\". State your revised plan before taking another action."
+    }
+  },
+  {
+    "step_idx": 9,
+    "role": "environment",
+    "decision": "ALARM",
+    "allow_proceed": false,
+    "ml_risk_prob": 0.5899,
+    "judge_verdict": "ALARM",
+    "judge_category": "PLAN_MISMATCH",
+    "judge_confidence": 0.58,
+    "applied_rule": "JUDGE_TIEBREAKER_ALARM",
+    "decision_rationale": "ML model is in ambiguous boundary zone (p=0.59). LLM Judge acts as tiebreaker and alarms on PLAN_MISMATCH (conf=0.58).",
+    "intervention": {
+      "step_idx": 5,
+      "decision_reason_category": "PLAN_MISMATCH",
+      "action_type": "TERMINATE",
+      "status": "TERMINATED",
+      "details": "Exhausted total intervention budget (4 >= 4). Terminating run to prevent cost/damage.",
+      "injected_message": {
+        "role": "system",
+        "thought": "",
+        "action": "",
+        "content": "[SYSTEM]: Run terminated. Maximum automated recovery attempts exceeded."
+      },
+      "metadata": {}
+    },
+    "injected_feedback": null
+  }
+]
