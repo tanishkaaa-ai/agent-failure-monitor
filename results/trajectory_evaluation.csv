@@ -1,0 +1,5 @@
+Configuration,Total_Unsafe,Detected_Failures,Missed_Failures,Detection_Rate,Early_Interception_Rate,Safe_False_Alarms,Safe_False_Alarm_Rate,Mean_Lead_Time_Steps,Median_Lead_Time_Steps
+Signals-only,163,6,157,0.0368,0.0307,12,0.071,6.67,5.0
+ML-only,163,163,0,1.0,0.9018,169,1.0,4.02,2.0
+LLM-only,163,162,1,0.9939,0.8957,168,0.9941,4.04,2.0
+Hybrid,163,162,1,0.9939,0.8957,168,0.9941,4.04,2.0

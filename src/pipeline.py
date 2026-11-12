@@ -137,6 +137,23 @@ class AgentFailureGuardSystem:
         current_step_idx = len(self.trajectory_history) - 1
         role = str(turn.get("role", "unknown"))
 
+        # If turn is from user, record prompt and allow execution to proceed normally
+        if role == "user":
+            result = GuardStepResult(
+                step_idx=current_step_idx,
+                role=role,
+                decision=FinalDecision.CONTINUE,
+                allow_proceed=True,
+                ml_risk_prob=0.0,
+                judge_verdict="CONTINUE",
+                judge_category="UNKNOWN",
+                judge_confidence=1.0,
+                applied_rule="USER_INITIATIVE",
+                decision_rationale="Initial user prompt recorded. Agent allowed to begin execution.",
+            )
+            self.audit_log.append(result)
+            return result
+
         # 2. Signals Engine
         try:
             sig = self.signals_engine.update(turn)

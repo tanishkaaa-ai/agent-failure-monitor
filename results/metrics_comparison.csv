@@ -1,0 +1,5 @@
+Configuration,Accuracy,Precision,Recall,F1-Score,ROC-AUC,True_Negatives,False_Positives,False_Negatives,True_Positives
+Signals-only,0.7003,0.4394,0.0355,0.0656,0.3919,1901,37,789,29
+ML-only,0.6796,0.4682,0.5856,0.5204,0.7033,1394,544,339,479
+LLM-only,0.7046,0.5028,0.445,0.4721,0.6296,1578,360,454,364
+Hybrid,0.7003,0.4945,0.4425,0.4671,0.6258,1568,370,456,362
