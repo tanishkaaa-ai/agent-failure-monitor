@@ -8,11 +8,20 @@ import os
 import pytest
 from src.decision.system import FinalDecision
 from src.interventions.actions import InterventionActionType
+from src.judge.judge import LLMJudge
+from src.judge.llm_client import MockLLMClient
 from src.pipeline import AgentFailureGuardSystem, GuardStepResult
 
 
+def get_test_guard(**kwargs):
+    return AgentFailureGuardSystem(
+        llm_judge=LLMJudge(client=MockLLMClient()),
+        **kwargs
+    )
+
+
 def test_guard_system_initialization():
-    guard = AgentFailureGuardSystem()
+    guard = get_test_guard()
     assert guard.signals_engine is not None
     assert guard.ml_predictor is not None
     assert guard.llm_judge is not None
@@ -22,7 +31,7 @@ def test_guard_system_initialization():
 
 
 def test_healthy_turn_allows_proceed():
-    guard = AgentFailureGuardSystem()
+    guard = get_test_guard()
     guard.start_session("Calculate sum of 2 and 3")
 
     turn = {"role": "assistant", "thought": "Simple addition", "action": "", "content": "Sum is 5"}
@@ -35,7 +44,7 @@ def test_healthy_turn_allows_proceed():
 
 def test_repeated_failure_triggers_intervention_and_terminates():
     """Validates that repeated tool failures trigger recovery actions and eventually terminate."""
-    guard = AgentFailureGuardSystem(max_interventions=3)
+    guard = get_test_guard(max_interventions=3)
     guard.start_session("Query database")
 
     # Step 1: Agent calls failing tool

@@ -1,0 +1,612 @@
+AgentForesight: Online Auditing for Early Failure
+Prediction in Multi-Agent Systems
+
+arXiv:2605.08715v2 [cs.CL] 13 May 2026
+
+Boxuan Zhang1∗ Jianing Zhu2∗ Zeru Shi1 Dongfang Liu3 Ruixiang Tang1†
+1
+Rutgers University 2 The University of Texas at Austin 3 Purdue University
+{bz362, rt836}@scarletmail.rutgers.edu
+Project Page: https://zbox1005.github.io/agent-foresight/
+
+Abstract
+LLM-based multi-agent systems are increasingly deployed on long-horizon tasks,
+but a single decisive error is often accepted by downstream agents and cascades into
+trajectory-level failure. Existing work frames this as post-hoc failure attribution,
+diagnosing the responsible agent and step after the trajectory has ended. However,
+this paradigm forfeits any opportunity to intervene while trajectory is still unfolding.
+In this work, we introduce AgentForesight, a framework that reframes this problem
+as online auditing: at each step of an unfolding trajectory, an auditor observes only
+the current prefix and must either continue the run or alarm at the earliest decisive
+error without access to future steps. To this end, we curate AFT RAJ -2K, a corpus
+of agentic trajectories across Coding, Math, and Agentic domains, in which safe
+trajectories are retained under a strict curation pipeline and unsafe trajectories are
+annotated at the step of their decisive error via consensus among multiple LLM
+judges. Built on that, we develop AgentForesight-7B, a compact online auditor
+trained with a coarse-to-fine reinforcement learning recipe that first equips it with
+a risk-anticipation prior at the failure boundary on adjacent safe/unsafe prefix pairs,
+then sharpens this prior into precise step-level localization under a three-axis reward
+jointly targeting the what, where, and who of an audit verdict. Across AFT RAJ -2K
+and an external Who&When benchmark, AgentForesight-7B outperforms leading
+proprietary models, including GPT-4.1 and DeepSeek-V4-Pro, achieving up to
++19.9% performance gain and 3× lower step localization error, opening the loop
+from post-hoc failure detection to enabling deployment-time intervention.
+
+1
+
+Introduction
+
+Large language models (LLMs) have rapidly evolved into agentic systems that plan, reason, and act
+across long-horizon tasks through coordinated tool use and inter-agent communication [59, 53, 17, 28].
+By decomposing complex objectives into specialized sub-tasks, these systems now tackle problems
+once considered out of reach, spanning software development [20, 51], scientific discovery [11, 12],
+and open-ended web navigation [66, 33]. However, such gains in capability come with a structural
+cost. Since each step is conditioned on earlier outputs, a single decisive error, e.g., a malformed tool
+call or a flawed intermediate deduction, is easily accepted by downstream agents and cascades into a
+full-trajectory failure [3, 63, 25]. Once deployed in real-world environments with access to APIs and
+external services, such failures extend beyond benchmark accuracy into unanticipated operational
+risks [60, 45], making reliability a central bottleneck for the deployment of LLM multi-agent systems.
+Although prior work has recognized failure analysis as a central concern for reliable LLM multi-agent
+systems, existing approaches predominantly frame it as post-hoc failure attribution, asking which
+∗ Equal contribution.
+† Corresponding author.
+
+Preprint.
+
+(a) Post-hoc Failure Attribution
+Task Query: Find the best noise-canceling headphones
+under $200 and provide a short recommendation.
+
+Step 4-6: Wasting Computation; Error propogation …
+
+Web Agent
+
+Step 1
+
+Planner
+
+Parse request
+& Set Criteria
+
+Planner
+
+Step 2
+
+Web Agent
+
+Search
+headphones
+
+Step 3
+
+Step 4
+Web Agent
+
+Set price filter:
+Under $300
+
+Step 5
+
+Web Agent
+
+Compare top
+results
+
+Step 6
+
+Reporter
+
+Reporter
+
+Generate
+Report
+
+Return “Sony
+XM5, $279”
+
+Wrong Report
+
+Wrong Output
+
+VS
+
+Correct Action
+
+Reporter
+
+Attribution
+Model
+
+Error was at
+Step 3
+
+Multi-Agent System
+
+(b) Online Auditing (AgentForesight)
+Task Query: Find the best noise-canceling headphones
+under $200 and provide a short product report.
+
+Step 1
+Web Agent
+
+Planner
+
+Parse request
+& Set Criteria
+
+Step 4
+Step 2
+
+Web Agent
+
+Search
+headphones
+
+Step 3
+
+Web Agent
+
+Set price filter:
+Under $300
+
+Error Detected
+
+Planner
+
+SAFE
+
+SAFE
+
+Wrong filter selected
+
+Reporter
+
+Multi-Agent System
+
+Intervention
+
+Web Agent
+
+Compare top
+results
+
+Step 5
+
+Reporter
+
+Generate
+Report
+
+Step 6
+
+Reporter
+
+Return “Sony
+XM5, $279”
+
+VS
+
+Step 4 Web Agent
+Compare top
+results
+
+Step 5 Reporter
+Generate
+Report
+
+Step 6
+
+Reporter
+
+Return “Beats
+Solo, $168
+
+VS
+
+Price filter under $200
+
+Figure 1: Comparison of (a) post-hoc failure attribution and (b) online auditing on the same multi-agent
+task. (a) Post-hoc failure attribution inspects the trajectory only after it has failed and identifies the decisive
+error retrospectively, by which point downstream propagation has already locked in the failure. (b) Our
+AgentForesight instead evaluates each prefix as the trajectory unfolds and flags the decisive error at the very
+step it commits, opening an intervention window before the failure is locked in (see Section 2).
+
+agent or step is responsible once the trajectory has already failed [63, 62, 67], as illustrated in
+Figure 1(a). For instance, Who&When [63] and AgenTracer [62] curate failed trajectories and train
+or prompt models to pinpoint the decisive error step after the run has ended, while AgentDebug [67]
+and related debugging frameworks [49, 19] analyze full trajectories to taxonomize failures and supply
+corrective feedback for subsequent retries. However, confining failure analysis to the post-hoc regime
+forgoes any opportunity to act while the trajectory is still unfolding. Before a diagnosis is available,
+agents have already consumed further tool calls and external resources, and in deployment settings
+may have triggered irreversible side effects. This naturally motivates a fundamental research question:
+Can we audit unfolding prefixes rather than completed trajectories to catch
+decisive errors before propagation locks in failure?
+To answer this question, we introduce online auditing, where a dedicated auditor commits a continueor-alarm verdict at every step of an unfolding trajectory, as illustrated in Figure 1(b). Concretely,
+instead of inspecting a completed trajectory with full hindsight, the auditor sees only the current prefix
+at each step and must judge it without access to future steps, tool responses, or the eventual outcome.
+This reframe turns failure analysis from a passive post-hoc diagnosis of completed runs into an active
+safeguard that can intervene before downstream propagation locks in the failure. Operationalizing
+it places two new demands on the auditor: ① it must reliably separate prefixes that are still safe
+from those already past a decisive error, and ② it must commit at the very step the error occurs,
+not in hindsight. Both demands exceed what existing failure-attribution data or models can provide,
+motivating the creation of both a new dataset and a dedicated training recipe.
+To instantiate this formulation, we develop AgentForesight, a framework that addresses these two
+demands through a dedicated dataset and a coarse-to-fine training recipe. We first construct AFT RAJ 2K, a curated corpus of agentic trajectories spanning Coding, Math, and Agentic domains, pairing
+safe trajectories retained under a strict filtering pipeline with failure trajectories annotated at their
+decisive error step under multi-judge voting verification. Building on the curated dataset, we finetune Qwen2.5-7B-Instruct via reinforcement learning to obtain AgentForesight-7B, a compact online
+auditor first equipped with a risk-anticipation prior at the failure boundary on adjacent safe/unsafe
+prefix pairs, then sharpened into precise step-level localization under a three-axis reward jointly
+targeting the structure of verdict (what), the timing of alarm (where), and the responsible agent (who).
+Together, AgentForesight-7B runs alongside off-the-shelf multi-agent systems and issues step-level
+continue-or-alarm verdicts on unfolding trajectories, without retraining the underlying agentic system.
+2
+
+We extensively evaluate AgentForesight-7B on AFT RAJ -2K and the external Who&When [63]
+benchmark, where it surpasses both its Qwen2.5-7B-Instruct base model and leading proprietary
+judges including GPT-4.1 and DeepSeek-V4-Pro, achieving +19.9% higher Exact-F1 and 3× lower
+step localization error than the strongest proprietary baseline. These gains confirm that our coarse-tofine recipe yields a compact online auditor that outperforms much larger proprietary judges under the
+prefix-restricted online setting. We summarize our contributions as follows:
+• We introduce online auditing, a deployment-time reframing of agentic failure analysis that audits
+unfolding trajectories step by step rather than diagnosing them after failure (Section 2).
+• We construct AFT RAJ -2K, a curated corpus of agentic trajectories spanning Coding, Math, and
+Agentic domains, pairing strictly filtered safe runs with multi-judge verified failure runs annotated
+at their decisive error step (Section 3.1).
+• We develop AgentForesight-7B, a compact online auditor trained via a coarse-to-fine RL recipe
+that first equips it with a risk-anticipation prior at the failure boundary, then sharpens this prior into
+precise step-level localization under the structure, timing, and attribution optimization (Section 3.2).
+• We empirically show that AgentForesight-7B surpasses its base model and leading proprietary
+judges on AFT RAJ -2K and Who&When benchmark (Section 4).
+
+2
+
+Problem Formulation
+
+We formalize the problem of monitoring multi-agent failures under two settings: ① post-hoc failure
+attribution, the prevailing setup in prior work [63, 62, 67], and ② online auditing, the deployment-time
+formulation we introduce. We first define the shared trajectory model and decisive error, then specify
+the formal setup for each setting, and close with a contrast clarifying the scope of our contribution.
+Multi-Agent Trajectory. We model a multi-agent execution as a turn-based system M =
+(S, N , πsys , Ψ, Ω), where S is the set of system states, N is the finite set of agent roles (e.g., Planner,
+WebAgent, CodeWriter), πsys is the system policy that produces the next turn given the current
+state, Ψ is the state-update function, and Ω : T → {0, 1} is the binary outcome function that judges
+a completed trajectory against the task specification (Ω(τ ) = 1 for success, 0 for failure), with T
+denoting the space of finite trajectories. The observed trajectory of M is a sequence of turns,
+τ = (t0 , t1 , . . . , tN −1 ),
+
+ti = (rolei , actioni , contenti ),
+
+(1)
+
+where N is the trajectory length, rolei ∈ N identifies the agent at turn ti , and the pair
+(actioni , contenti ) records its action together with the resulting observable content.
+Decisive Error. Following [63, 62], we adopt the decisive error, whose correction would have
+flipped the trajectory outcome from failure to success, as the operational unit of failure analysis.
+Definition 2.1 (Decisive error) For a failure trajectory τ with Ω(τ ) = 0, let τ + := τ0:k−1 ⊕ t̃
+denote the prefix with step k replaced by an admissible correction t̃. The decisive error step is
+
+k ∗ = min k ∈ [T ] : ∃ t̃ ∈ Tk (τ0:k−1 ), τ̃ ∈ RM (τ + ), Ω(τ + ⊕ τ̃ ) = 1 ,
+(2)
+where Tk (τ0:k−1 ) is the set of admissible correct turns at position k, and RM (·) is the set of suffix
+trajectories reachable from a corrected prefix under the system policy πsys . Intuitively, k ∗ is the
+earliest step whose error cannot be recovered by any downstream rollout under πsys , so that an oracle
+correction at k ∗ is both necessary and sufficient to salvage the trajectory. We call a∗ = rolek∗ the
+responsible agent, and annotate failed trajectory with (k ∗ , a∗ ), while successful ones with (SAFE, ∅).
+Post-hoc Failure Attribution. Prior methods [63, 62, 67] take a completed failure trajectory τ
+together with its terminal outcome Ω(τ ) = 0 as input, and emit a single retrospective prediction:
+ŷpost = fpost (τ ) = (k̂, â) ∈ {0, . . . , N −1} × N .
+
+(3)
+
+Three properties characterise this setup: (i) full hindsight over τ and Ω(τ ); (ii) single-shot output;
+(iii) prediction occurs after the failure has materialized, leaving no intervention window.
+3
+
+Online Auditing. Online auditing reframes failure analysis as a deployment-time decision, where
+an auditor runs alongside the multi-agent system at every step and decides, on prefix evidence alone,
+whether to allow execution to continue.
+Definition 2.2 (Online auditing) Let τ0:k = (t0 , . . . , tk ) denote the prefix of τ up to turn tk . An
+online auditor is a function
+
+ŷk = fonline (τ0:k ) ∈ {C ONTINUE} ∪ {A LARM} × {0, . . . , k} × N ,
+(4)
+applied at each step k = 0, . . . , N −1. A C ONTINUE verdict signals that no decisive error has yet
+been observed in the visible window, while an A LARM verdict halts execution and reports a predicted
+decisive error step k̂ ∈ {0, . . . , k} together with the predicted responsible agent â ∈ N .
+The setup inverts the three post-hoc properties: (i) only prefix-restricted information, with no access
+to tk+1:N −1 or the terminal label; (ii) per-step output, N verdicts per trajectory; (iii) an A LARM at
+step k creates an intervention window before tk+1 is committed. Directly applying fpost to each prefix
+is ill-posed, since they are trained assuming that Ω(τ ) = 0 is observed, which fails on a live prefix.
+
+3
+
+Methodology
+
+In this section, we present AgentForesight, a framework that operationalizes the demands of online
+auditing through (1) a curated corpus AFT RAJ -2K supplying prefix-level supervision (Section 3.1),
+and (2) a coarse-to-fine training recipe producing the compact online auditor AgentForesight-7B
+(Section 3.2). Detailed pseudocode for both components is provided in Appendix A.
+3.1
+
+AFT RAJ -2K: A Curated Corpus for Online Agentic Auditing
+
+The online-auditing setup of Definition 2.2 demands training data with three properties absent from
+existing failure-attribution corpora: (i) per-step ground truth (k ∗ , a∗ ) for unsafe trajectories, (ii)
+verified safe trajectories that admit prefix-restricted supervision at every step, and (iii) coverage across
+heterogeneous multi-agent frameworks and task domains. Existing open-source benchmarks fall
+short on at least one of these axes. Who&When [63] provides step-level decisive-error annotations
+but contains only failed trajectories, leaving the safe regime unsupervised; ATBench [25] includes
+both safe and unsafe trajectories but focuses on safety-specific tasks and supplies only trajectory-level
+labels. We therefore construct AFT RAJ -2K, a unified corpus of multi-agent trajectories collected,
+filtered, and annotated for online auditing. Figure 2(a) illustrates the construction pipeline.
+Trajectory Collection. We instantiate multi-agent systems on a suite of off-the-shelf frameworks [53, 17, 41] and run them on tasks spanning mathematical reasoning [16], code generation [29],
+and open-ended agentic problem solving [57, 33]. This diversity in role decompositions, tool stacks,
+and task structure promotes broad coverage of multi-agent dynamics rather than the idiosyncrasies
+of any single system. Each rollout yields a turn-level trajectory τ ∈ T as defined in Eq. 1, scored
+by the outcome function Ω : T → {0, 1} against the reference solution. The raw pool of collected
+trajectories then partitions into two disjoint subsets,
+Dsucc = {τ | Ω(τ ) = 1},
+
+Dfail = {τ | Ω(τ ) = 0},
+
+(5)
+
+which feed the two parallel branches of the construction pipeline: Dsucc supplies the source for
+verified safe trajectories, while Dfail together with controlled error injection on Dsucc yields failure
+trajectories with decisive-error annotations. Source-level details are deferred to Appendix B.3.
+Curating Verified Safe Trajectories. A trajectory τ ∈ Dsucc is not automatically safe 1 at every
+step in the sense of Definition 2.2, since a silent intermediate error may be masked by a downstream
+agent’s recovery, or by permissive evaluation criteria that flip Ω(τ ) to 1 despite locally degenerate
+turns. Treating such trajectories as positive supervision would teach the auditor to issue C ONTINUE
+on prefixes that contain warning signs it should learn to flag, directly undermining the prefix-restricted
+1We use safe to refer to trajectories that complete successfully without containing any step whose correction would have
+
+changed the outcome (Definition 2.1), which is distinct from the safety/alignment usage in RLHF literature.
+
+4
+
+(a) AFTraj-2K Construction Pipeline
+Successful Trajectories
+
+(b) Training AgentForesight
+Failed Trajectories
+
+LLM-based Agent Execution Pool
+
+Stage 1: Failure Boundary Alignment
+
+System
+Web Agent
+
+Step 1
+
+Step 2 ··· Step T
+
+MetaGPT
+
+Smolagents
+
+Step 1
+
+Dataset
+
+Planner
+
+Step 1
+
+Step 2 ···
+
+Filtering Pipeline
+Task cuccess
+
+Coding
+
+LLM-as-a-Judge Annotation
+fault
+injection
+
+2 ··· Step T
+Step 1 Step
+devil.png
+
+Stage 2: Three-Axis Reward with RL
+Rollout Output
+
+Step 1 ··· Step
+K ··· Step T
+devil.png
+Step K is error
+Verify
+
+Step 1
+
+Step 2 ···
+ERR
+devil.png
+
+Judge 1
+vote
+
+··· Step T
+
+Judge 2
+vote
+
+Judge 3
+vote
+
+Multi-LLM Voting
+
+Pass
+Voting
+
+AFTraj-2K
+
+Step 2 ··· Step K
+
+Step 1
+
+Agentic
+
+Tool call validity
+
+A unified curated corpus
+for online agentic auditing
+
+>
+
+Aligns the auditor to the failure boundary
+
+Math
+
+Decisive Error Injection
+
+Output quality
+
+Step
+K-1
+
+Step 2 ··· Step T
+
+Reporter
+
+Multi-Agent System
+
+Prefix including decisive error
+
+Prefix before decisive error
+
+AutoGen
+
+···
+
+Reward Design
+
+<think>
+Walk through the traj step-by-step…
+The decisive error is in Step 4…
+</think>
+<answer>
+{
+“answer”: 4,
+“agent”: Manager,
+“suggested_fix”: Manager should…
+}
+</answer>
+
+!$%&'()
+Schema
+JSON
+Grounding
+
+What
+
+!*)+,
+!"#(−
+
+!(-+.)
+
+=
+≠
+
+&
+(' − ' ∗ )"
+)
+2* "
+
+Where
+
+Who
+
+Sharpens timing (where), aligns attribution (who),
+enforces structure (what)
+
+AgentForesight-7B
+Step 1
+
+Step 2 ··· Step T
+
+Verified Successful Trajs
+
+Step 1
+
+Step 2 ··· ERR
+
+Step K ··· Step T
+
+Failed Trajs with Decisive Error Step
+
+A compact online auditor
+Input: pxrefix !!…#
+
+Continue
+
+Output: continue/alarm @ step k
+
+Alarm
+
+Figure 2: Overview of AgentForesight. (a) The AFT RAJ -2K construction pipeline collects trajectories from
+off-the-shelf multi-agent systems across multiple domains, retains successful runs through a strict filtering
+pipeline, and produces failure runs via decisive-error injection and multi-judge voting verification. (b) A
+coarse-to-fine training recipe that first equips the auditor with a risk-anticipation prior on adjacent safe/unsafe
+prefix pairs, then sharpens it into precise step-level localization under a three-axis reward targeting what, where,
+who of an audit verdict. The resulting auditor issues per-step C ONTINUE or A LARM verdicts on prefix evidence.
+
+supervision online auditing demands. We therefore apply a three-stage filtering pipeline of binary
+predicates ϕj : T → {0, 1} to retain only trajectories that are safe at every prefix,
+
+Dsafe = τ ∈ Dsucc ϕj (τ ) = 1, ∀j ∈ F , F = {outcome, integrity, coherence}, (6)
+where ϕoutcome enforces strict outcome equivalence against the reference, ϕintegrity rejects trajectories
+with any invalid tool invocation, and ϕcoherence verifies that each turn remains aligned with the declared
+sub-goal under an LLM judge. Each τ ∈ Dsafe is treated as carrying the label (S AFE, ∅) at every
+prefix τ0:k , providing the positive-class supervision absent from prior failure-attribution corpora.
+Constructing Failure Trajectories with Decisive Error Annotations. The training signal
+(τ, k ∗ , a∗ ) required by online auditing demands both the existence of a verified failure and steplevel localization of its decisive error, neither of which is reliably extractable from naive sources. We
+obtain this signal from two complementary streams that together cover distinct failure distributions.
+The constructive stream operates on safe trajectories with by-construction ground truth, while the
+diagnostic stream operates on naturally-failed trajectories whose decisive step must be discovered.
+Building on the paradigm of [62], the constructive stream applies controlled decisive error injection
+to verified safe trajectories, mirroring the counterfactual structure of Definition 2.1. Starting from
+τ ∈ Dsafe , we sample an injection step kinj ∈ {1, . . . , |τ |−2} and a fault category c ∈ C, generate a
+faulty turn t̃kinj ∼ πfault (· | τ0:kinj −1 , c), and re-roll the system M forward to obtain
+
+τ̃ = τ0:kinj −1 ⊕ t̃kinj ⊕ τ̃>kinj ,
+τ̃>kinj ∼ Roll M, τ0:kinj −1 ⊕ t̃kinj ,
+(7)
+where πfault is realized by complementary turn-rewriting and live-replay variants suited to shorthorizon and tool-augmented domains respectively. A post-injection check rejects candidates whose
+Ω(τ̃ ) = 1 (downstream agents recovered) or whose targeted turn was not actually modified, after
+inj
+which each accepted sample is admitted to Dfail
+with verified label (k ∗ , a∗ ) = (kinj , akinj ). The
+diagnostic stream operates on τ ∈ Dfail , where the decisive error occurs at some unknown step
+in τ but must be localized. We adopt a propose-and-verify ensemble designed to be strictly more
+conservative than single-round majority voting. A pool of P proposer calls returns candidate steps and
+their responsible agents, and each unique candidate is then re-checked by V verifier calls along four
+binary criteria (sexists , ssubstantive , sdecisive , searliest ). A candidate is admitted if and only if its support
+count, i.e., the number of verifiers under which all four criteria hold, exceeds the majority threshold,
+n
+o
+PV Q (j)
+nat
+Dfail
+= (τ, kcand , akcand )
+s
+≥
+⌊V
+/2⌋
++
+1
+,
+(8)
+r
+j=1
+r
+where r ranges over the four criteria above; the highest-strict-support candidate is then selected
+per τ , with ties broken by verifier confidence. The final unsafe pool combines the two streams,
+inj
+nat
+Dunsafe = Dfail
+∪ Dfail
+, providing the step-level decisive-error supervision required by online auditing.
+5
+
+

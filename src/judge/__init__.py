@@ -8,8 +8,11 @@ from src.judge.schema import (
 from src.judge.llm_client import (
     BaseLLMClient,
     GeminiClient,
+    GrokClient,
+    GroqClient,
     MockLLMClient,
     OpenAIClient,
+    get_default_llm_client,
 )
 
 __all__ = [
@@ -19,8 +22,10 @@ __all__ = [
     "ReasonCategory",
     "JudgeConfidence",
     "BaseLLMClient",
+    "GrokClient",
+    "GroqClient",
     "GeminiClient",
     "OpenAIClient",
     "MockLLMClient",
+    "get_default_llm_client",
 ]
-

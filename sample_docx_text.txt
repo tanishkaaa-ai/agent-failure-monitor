@@ -1,0 +1,1470 @@
+--- Paragraph 0 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 1 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=260350 bold=True italic=None]: Title of the Project
+Text: Title of the Project
+
+--- Paragraph 2 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: A Project 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: R
+  [Run font=Times New Roman size=152400 bold=None italic=None]: eport submitted in partial fulfillment of the requirements for the award of the degree of
+Text: A Project Report submitted in partial fulfillment of the requirements for the award of the degree of
+
+--- Paragraph 3 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 4 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 5 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Bachelor of Technology
+Text: Bachelor of Technology
+
+--- Paragraph 6 | Style: Heading 3 | Align: None ---
+  [Run font=Times New Roman size=None bold=None italic=None]: in
+Text: in
+
+--- Paragraph 7 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Computer Science and Engineering
+Text: Computer Science and Engineering
+
+--- Paragraph 8 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=177800 bold=None italic=None]: by
+Text: by
+
+--- Paragraph 9 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 10 | Style: Heading 3 | Align: None ---
+  [Run font=Times New Roman size=None bold=None italic=None]: Student’s Name/ Group Members’ Names (MIS Number in Brackets)
+Text: Student’s Name/ Group Members’ Names (MIS Number in Brackets)
+
+--- Paragraph 11 | Style: Heading 3 | Align: None ---
+Text: 
+
+--- Paragraph 12 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Under the Supervision of: Supervisor’s Name
+Text: Under the Supervision of: Supervisor’s Name
+
+--- Paragraph 13 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 14 | Style: Heading 3 | Align: None ---
+  [Run font=Times New Roman size=None bold=None italic=None]: Semester: 
+Text: Semester: 
+
+--- Paragraph 15 | Style: Normal | Align: CENTER (1) ---
+  [Run font=None size=None bold=None italic=None]: 
+Text: 
+
+--- Paragraph 16 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 17 | Style: Heading 4 | Align: None ---
+  [Run font=Times New Roman size=177800 bold=None italic=None]: Department of Computer Science and Engineering
+Text: Department of Computer Science and Engineering
+
+--- Paragraph 18 | Style: Heading 4 | Align: None ---
+Text: 
+
+--- Paragraph 19 | Style: Heading 4 | Align: None ---
+  [Run font=Times New Roman size=177800 bold=None italic=None]: Indian Institute of Information
+  [Run font=Times New Roman size=177800 bold=None italic=None]:  
+  [Run font=Times New Roman size=177800 bold=None italic=None]: Technology, Pune
+Text: Indian Institute of Information Technology, Pune
+
+--- Paragraph 20 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 21 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: (An Institute of National Importance by an Act of Parliament)
+Text: (An Institute of National Importance by an Act of Parliament)
+
+--- Paragraph 22 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 23 | Style: Heading 4 | Align: None ---
+  [Run font=Times New Roman size=None bold=None italic=None]: DEC
+  [Run font=Times New Roman size=None bold=None italic=None]:  
+  [Run font=Times New Roman size=None bold=None italic=None]: 202
+  [Run font=Times New Roman size=None bold=None italic=None]: 6
+Text: DEC 2026
+
+--- Paragraph 24 | Style: Heading 4 | Align: None ---
+Text: 
+
+--- Paragraph 25 | Style: Heading 4 | Align: None ---
+Text: 
+
+--- Paragraph 26 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]:      (Note: do change the 
+  [Run font=Times New Roman size=177800 bold=True italic=None]: M
+  [Run font=Times New Roman size=177800 bold=True italic=None]: onth
+  [Run font=Times New Roman size=177800 bold=True italic=None]:  and Year
+  [Run font=Times New Roman size=177800 bold=True italic=None]:  accordingly)
+Text:      (Note: do change the Month and Year accordingly)
+
+--- Paragraph 27 | Style: Heading 4 | Align: None ---
+Text: 
+
+--- Paragraph 28 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=True italic=None]: BONAFIDE CERTIFICATE
+Text: BONAFIDE CERTIFICATE
+
+--- Paragraph 29 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 30 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: This is to  certify  that  the  project  report  entitled  
+  [Run font=Times New Roman size=152400 bold=True italic=None]: “Title of the Project”  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: submitted by 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Students’ Name  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: bearing  the  
+  [Run font=Times New Roman size=152400 bold=True italic=None]: MIS  No:   ____
+  [Run font=Times New Roman size=152400 bold=None italic=None]: ,   
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Students’ Name  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: bearing the 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: MIS No: _____
+  [Run font=Times New Roman size=152400 bold=None italic=None]: , 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Students’ Name 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: bearing the 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: MIS No:  ____
+  [Run font=Times New Roman size=152400 bold=None italic=None]: ,  in completion of his/her project work under the guidance of 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Supervisor’s Name 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: is accepted for the project report submission in partial fulfillment of the requirements for the award of the degree of 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Bachelor of Technology 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: in the 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Department of Computer Science and Engineering
+  [Run font=Times New Roman size=152400 bold=None italic=None]: , Indian Institute of Information Technology, Pune (IIIT Pune), during the academic year 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 202
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 6
+  [Run font=Times New Roman size=152400 bold=True italic=None]: -2
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 7
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .
+Text: This is to  certify  that  the  project  report  entitled  “Title of the Project”  submitted by Students’ Name  bearing  the  MIS  No:   ____,   Students’ Name  bearing the MIS No: _____, Students’ Name bearing the MIS No:  ____,  in completion of his/her project work under the guidance of Supervisor’s Name is accepted for the project report submission in partial fulfillment of the requirements for the award of the degree of Bachelor of Technology in the Department of Computer Science and Engineering, Indian Institute of Information Technology, Pune (IIIT Pune), during the academic year 2026-27.
+
+--- Paragraph 31 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 32 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 33 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 34 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 35 | Style: Heading 4 | Align: LEFT (0) ---
+  [Run font=Times New Roman size=None bold=None italic=None]: Supervisor’s Nam
+  [Run font=Times New Roman size=None bold=None italic=None]: e                                                                     
+  [Run font=Times New Roman size=None bold=None italic=None]: HoD
+  [Run font=Times New Roman size=None bold=None italic=None]:  Name
+Text: Supervisor’s Name                                                                     HoD Name
+
+--- Paragraph 36 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Project 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Supervisor
+  [Run font=Times New Roman size=152400 bold=None italic=None]:                                                                         
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Head of the Department
+Text: Project Supervisor                                                                        Head of the Department
+
+--- Paragraph 37 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Designation of the Supervisor
+  [Run font=Times New Roman size=152400 bold=None italic=None]:                                                       
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Assistant Professor
+Text: Designation of the Supervisor                                                      Assistant Professor
+
+--- Paragraph 38 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Department of t
+  [Run font=Times New Roman size=152400 bold=None italic=None]: he Supervisor
+  [Run font=Times New Roman size=152400 bold=None italic=None]:                                                        
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Department of CSE/ECE
+Text: Department of the Supervisor                                                       Department of CSE/ECE
+
+--- Paragraph 39 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: IIIT Pune
+  [Run font=Times New Roman size=152400 bold=None italic=None]:                                                                                        
+  [Run font=Times New Roman size=152400 bold=None italic=None]: IIIT Pune
+Text: IIIT Pune                                                                                       IIIT Pune
+
+--- Paragraph 40 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 41 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 42 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 43 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 44 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Project Viva-voce held on
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	
+Text: Project Viva-voce held on	 	
+
+--- Paragraph 45 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 46 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 47 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 48 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 49 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 50 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 51 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 52 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 53 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 54 | Style: Heading 4 | Align: LEFT (0) ---
+  [Run font=None size=None bold=None italic=None]: 
+Text: 
+
+--- Paragraph 55 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=True italic=None]: Undertaking for Plagiarism
+Text: Undertaking for Plagiarism
+
+--- Paragraph 56 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: I/We
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  Students’ Names
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  solemnly declare that research work presented in the 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: report/dissertation
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: titled
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=True italic=None]: “
+  [Run font=Times New Roman size=152400 bold=True italic=None]: ………………………………………
+  [Run font=Times New Roman size=152400 bold=True italic=None]: …..
+  [Run font=Times New Roman size=152400 bold=True italic=None]: ……………………………………………………………………………………………………………………………………….…………………….”
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  is solely 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: my/our 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: research work with no significant contribution from any other person. Small contribution/help wherever taken has been duly acknowledged and that complete report has been written by 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: us/me
+  [Run font=Times New Roman size=152400 bold=None italic=None]: . I understand the 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: zero
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: tolerance
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  policy of 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Indian Institute of Information Technology
+  [Run font=Times New Roman size=152400 bold=True italic=None]: ,
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  Pune
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  towards plagiarism. Therefore 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: I/we
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  declare that no portion of my 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: report 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: has been plagiarized and any material used as reference is properly referred/cited. I undertake that if I am found guilty of any formal plagiarism in the above titled thesis even after award of the degree, the Institute reserves the rights to withdraw/revoke my 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: B.Tech
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: degree.
+Text: I/We Students’ Names solemnly declare that research work presented in the report/dissertation titled  “…………………………………………..……………………………………………………………………………………………………………………………………….…………………….” is solely my/our research work with no significant contribution from any other person. Small contribution/help wherever taken has been duly acknowledged and that complete report has been written by us/me. I understand the zero tolerance policy of Indian Institute of Information Technology, Pune towards plagiarism. Therefore I/we declare that no portion of my report has been plagiarized and any material used as reference is properly referred/cited. I undertake that if I am found guilty of any formal plagiarism in the above titled thesis even after award of the degree, the Institute reserves the rights to withdraw/revoke my B.Tech degree.
+
+--- Paragraph 57 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 58 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Student’s Name and Signature with Date
+Text: Student’s Name and Signature with Date
+
+--- Paragraph 59 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=None size=None bold=None italic=None]: 
+Text: 
+
+--- Paragraph 60 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=True italic=None]: Conflict of Interest
+Text: Conflict of Interest
+
+--- Paragraph 61 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Manuscript
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  
+  [Run font=Times New Roman size=152400 bold=True italic=None]: title: _______________________________________________________________
+Text: Manuscript title: _______________________________________________________________
+
+--- Paragraph 62 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The authors whose names are listed immediately below certify that they have NO affiliations with or involvement in any organization or entity with any financial interest (such as honoraria; educational grants; participation in speakers’ bureaus; membership, employment, consultancies, stock ownership, or other equity interest; and expert testimony or patent-licensing arrangements), or non-financial interest (such as personal or professional relationships, affiliations, knowledge or beliefs) in the subject matter or materials discussed in this manuscript. 
+Text: The authors whose names are listed immediately below certify that they have NO affiliations with or involvement in any organization or entity with any financial interest (such as honoraria; educational grants; participation in speakers’ bureaus; membership, employment, consultancies, stock ownership, or other equity interest; and expert testimony or patent-licensing arrangements), or non-financial interest (such as personal or professional relationships, affiliations, knowledge or beliefs) in the subject matter or materials discussed in this manuscript. 
+
+--- Paragraph 63 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 64 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Student’s Name and Signature with Date
+Text: Student’s Name and Signature with Date
+
+--- Paragraph 65 | Style: Heading 2 | Align: None ---
+Text: 
+
+--- Paragraph 66 | Style: Heading 2 | Align: None ---
+  [Run font=Times New Roman size=None bold=None italic=None]: ACKNOWLEDGEMENT
+Text: ACKNOWLEDGEMENT
+
+--- Paragraph 67 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 68 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: This project would not have been possible without the help and cooperation of many. I would like to thank the people who helped me directly and indirectly in the completion of this project work.
+Text: This project would not have been possible without the help and cooperation of many. I would like to thank the people who helped me directly and indirectly in the completion of this project work.
+
+--- Paragraph 69 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 70 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: First and foremost, I would like to 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: express my
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  gratitude to our 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: honorable
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: D
+  [Run font=Times New Roman size=152400 bold=None italic=None]: irector,
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Prof. 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Vineet Kansal
+  [Run font=Times New Roman size=152400 bold=None italic=None]: , for providing his kind support in various aspects. 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: I would like to express my gratitude to my project guide 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Supervisor’s Name
+  [Run font=Times New Roman size=152400 bold=None italic=None]: , 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Department of CSE
+  [Run font=Times New Roman size=152400 bold=None italic=None]: , for providing excellent guidance, encouragement, inspiration, constant and timely support throughout this 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: B.Tech
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  
+  [Run font=Times New Roman size=152400 bold=True italic=None]: P
+  [Run font=Times New Roman size=152400 bold=True italic=None]: roject
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: I would like to express my gratitude to the 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: H
+  [Run font=Times New Roman size=152400 bold=True italic=None]: ead of 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: D
+  [Run font=Times New Roman size=152400 bold=True italic=None]: epartment 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: (Name)
+  [Run font=Times New Roman size=152400 bold=None italic=None]: , 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Department of CSE
+  [Run font=Times New Roman size=152400 bold=None italic=None]: , for providing his kind support in various aspects.
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: I would also like to thank all the faculty members in the 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Dep
+  [Run font=Times New Roman size=152400 bold=True italic=None]: artment
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  of CSE
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  and my classmates for their steadfast and strong support and engagement with this project.
+Text: First and foremost, I would like to express my gratitude to our honorable Director, Prof. Vineet Kansal, for providing his kind support in various aspects. I would like to express my gratitude to my project guide Supervisor’s Name, Department of CSE, for providing excellent guidance, encouragement, inspiration, constant and timely support throughout this B.Tech Project. I would like to express my gratitude to the Head of Department (Name), Department of CSE, for providing his kind support in various aspects. I would also like to thank all the faculty members in the Department of CSE and my classmates for their steadfast and strong support and engagement with this project.
+
+--- Paragraph 71 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 72 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 73 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: (Note: Students may add or change the Acknowledgement 
+  [Run font=Times New Roman size=177800 bold=True italic=None]: content 
+  [Run font=Times New Roman size=177800 bold=True italic=None]: as per their preference, but it must not exceed one page)
+Text: (Note: Students may add or change the Acknowledgement content as per their preference, but it must not exceed one page)
+
+--- Paragraph 74 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 75 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 76 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 77 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 78 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 79 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 80 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 81 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 82 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 83 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 84 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 85 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 86 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 87 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 88 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 89 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 90 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 91 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 92 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 93 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 94 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 95 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 96 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 97 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 98 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 99 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 100 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 101 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 102 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 103 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 104 | Style: Normal | Align: None ---
+  [Run font=None size=None bold=None italic=None]: 
+Text: 
+
+--- Paragraph 105 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Title
+Text: Title
+
+--- Paragraph 106 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=12700 bold=None italic=None]: 
+Text: 
+
+--- Paragraph 107 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 108 | Style: Heading 2 | Align: None ---
+  [Run font=Times New Roman size=None bold=None italic=None]: Abstract
+Text: Abstract
+
+--- Paragraph 109 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 110 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: COVID-19 is a novel virus that causes infection in both the upper respiratory tract and the lungs. In the scale of a global pandemic, numbers of cases and deaths have increased daily. CT is scan one of the tests that can give a better picture on the severity of COVID-19. For monitoring various lung 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: diseases,chest
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  X-ray illustrations have proven useful, and they are used to monitor the COVID-19 disease.
+Text: COVID-19 is a novel virus that causes infection in both the upper respiratory tract and the lungs. In the scale of a global pandemic, numbers of cases and deaths have increased daily. CT is scan one of the tests that can give a better picture on the severity of COVID-19. For monitoring various lung diseases,chest X-ray illustrations have proven useful, and they are used to monitor the COVID-19 disease.
+
+--- Paragraph 111 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: In this project, I am going to work on deep-learning-based approaches, namely deep feature extraction, fine-tuning of pretrained convolutional neural networks (CNN), and end-to-end training of a developed CNN model, have been used to classify COVID-19 and normal (healthy) chest X-ray images. For deep feature extraction, pretrained deep CNN models (ResNet18, ResNet50, ResNet101, VGG16, and VGG19) were used. For classification of the deep features, the Support Vector Machines (SVM) classifier was used with various kernel functions, namely Linear, Quadratic, Cubic, and Gaussian. The pretrained deep CNN models were also used for the fine-tuning procedure.
+Text: In this project, I am going to work on deep-learning-based approaches, namely deep feature extraction, fine-tuning of pretrained convolutional neural networks (CNN), and end-to-end training of a developed CNN model, have been used to classify COVID-19 and normal (healthy) chest X-ray images. For deep feature extraction, pretrained deep CNN models (ResNet18, ResNet50, ResNet101, VGG16, and VGG19) were used. For classification of the deep features, the Support Vector Machines (SVM) classifier was used with various kernel functions, namely Linear, Quadratic, Cubic, and Gaussian. The pretrained deep CNN models were also used for the fine-tuning procedure.
+
+--- Paragraph 112 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: A new LSTM model is proposed in this study with end-to-end training. A dataset containing 180 COVID-19 and 200 normal (healthy) chest X-ray images will be used in the study’s experimentation. Classification accuracy was used as the performance measurement of the study. The experimental works reveal that deep learning shows potential in the detection of COVID-19 based on chest X-ray images. The results of which showed the deep approaches to be quite efficient when compared to the local texture descriptors in the detection of COVID-19 based on chest X-ray images.
+Text: A new LSTM model is proposed in this study with end-to-end training. A dataset containing 180 COVID-19 and 200 normal (healthy) chest X-ray images will be used in the study’s experimentation. Classification accuracy was used as the performance measurement of the study. The experimental works reveal that deep learning shows potential in the detection of COVID-19 based on chest X-ray images. The results of which showed the deep approaches to be quite efficient when compared to the local texture descriptors in the detection of COVID-19 based on chest X-ray images.
+
+--- Paragraph 113 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The ability to process large numbers of features makes deep learning very powerful when dealing with unstructured data. If the data is too simple or incomplete, it is very easy for a deep learning model to become overfitted and fail to generalize well to new data.
+Text: The ability to process large numbers of features makes deep learning very powerful when dealing with unstructured data. If the data is too simple or incomplete, it is very easy for a deep learning model to become overfitted and fail to generalize well to new data.
+
+--- Paragraph 114 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 115 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Keywords
+  [Run font=Times New Roman size=152400 bold=True italic=None]: : 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Covid detection, Artific
+  [Run font=Times New Roman size=152400 bold=None italic=None]: ial Intelligence, Deep Learning
+Text: Keywords: Covid detection, Artificial Intelligence, Deep Learning
+
+--- Paragraph 116 | Style: Heading 2 | Align: None ---
+  [Run font=Times New Roman size=None bold=None italic=None]: TABLE OF CONTENTS
+Text: TABLE OF CONTENTS
+
+--- Paragraph 117 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 118 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Abstract
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=True italic=None]: i
+Text: Abstract	i
+
+--- Paragraph 119 | Style: Normal | Align: None ---
+Text: List of Figures/Symbols/Nomenclature	iv
+
+--- Paragraph 120 | Style: Normal | Align: None ---
+Text: List of Tables	v
+
+--- Paragraph 121 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Introduction
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 	1
+Text: Introduction	1
+
+--- Paragraph 122 | Style: Normal | Align: None ---
+Text: 1.1	Overview of work .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .	1
+
+--- Paragraph 123 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Literature Review 
+Text: 1.2	Literature Review  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .	2
+
+--- Paragraph 124 | Style: Normal | Align: None ---
+Text: 1.3	.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .	4
+
+--- Paragraph 125 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 1.4
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	Research 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Gap.  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   .
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 6
+Text: 1.4	Research Gap.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .  .	6
+
+--- Paragraph 126 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Problem Statement
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 7
+Text: Problem Statement	7
+
+--- Paragraph 127 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 2
+Text: 2.1	Research Objectives .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .	8
+
+--- Paragraph 128 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 2
+Text: 2.2	Analysis And Design .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .	10
+
+--- Paragraph 129 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Proposed Work
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 1
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 1
+Text: Proposed Work	11
+
+--- Paragraph 130 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 3.1 
+  [Run font=Times New Roman size=152400 bold=None italic=None]:     
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Methodology of 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: W
+  [Run font=Times New Roman size=152400 bold=None italic=None]: ork.  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	12
+Text: 	3.1     Methodology of Work.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .	12
+
+--- Paragraph 131 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	3.2     
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Hardware & Software 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: S
+  [Run font=Times New Roman size=152400 bold=None italic=None]: pecifications.  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   . 
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	14
+Text: 	3.2     Hardware & Software Specifications.  .  .  .  .  .  .   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .	14
+
+--- Paragraph 132 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 	3.3     Dataset 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Description
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: . 
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .  .
+  [Run font=Times New Roman size=152400 bold=None italic=None]:   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 15
+Text: 	3.3     Dataset Description.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .   . .  .  15
+
+--- Paragraph 133 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Results and Discussion
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 1
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 9
+Text: Results and Discussion	19
+
+--- Paragraph 134 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Conclusion and Future 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Scope
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 	
+  [Run font=Times New Roman size=152400 bold=True italic=None]: 22
+Text: Conclusion and Future Scope	22
+
+--- Paragraph 135 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: References
+Text: References
+
+--- Paragraph 136 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Publication (if any)
+Text: Publication (if any)
+
+--- Paragraph 137 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 138 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: (Note: Students may add or change the section and sub-section title, caption etc. as per their work)
+Text: (Note: Students may add or change the section and sub-section title, caption etc. as per their work)
+
+--- Paragraph 139 | Style: Heading 1 | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 140 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: List of Figures 
+  [Run font=Times New Roman size=215900 bold=None italic=None]:  
+Text: List of Figures / Symbols/ Nomenclature 
+
+--- Paragraph 141 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: List of Tables
+Text: List of Tables
+
+--- Paragraph 142 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=True italic=None]: Chapter 1 
+Text: Chapter 1 
+
+--- Paragraph 143 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=True italic=None]: Introduction (All Headings: 17 Font Size, Times New Roman)
+Text: Introduction (All Headings: 17 Font Size, Times New Roman)
+
+--- Paragraph 144 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 145 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 146 | Style: Heading 2 | Align: LEFT (0) ---
+  [Run font=Times New Roman size=177800 bold=None italic=None]:     
+  [Run font=Times New Roman size=177800 bold=None italic=None]: Overview of Work (First Sub-Heading, 14 Times New Roman)
+Text:     Overview of Work (First Sub-Heading, 14 Times New Roman)
+
+--- Paragraph 147 | Style: Heading 3 | Align: LEFT (0) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Subtitle if any (Under Sub-Heading Pointer, 12 Times New Roman)
+Text: Subtitle if any (Under Sub-Heading Pointer, 12 Times New Roman)
+
+--- Paragraph 148 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 149 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: As the healthcare industry is recently shifting its focus from disease treatment the past to prevention, patients are demanding more effective and safe treatment and personalized treatment from medical care 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: providers.To
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  achieve this, it is necessary to comprehensively analyze and utilize patients’ lifelong data, medical image data, genetic data, medical literature data, and medical records in hospitals. There are limitations in diagnosing patients by analyzing the vast amounts of data through doctors’ cognitive judgment ability and effort, and environmental factors.
+Text: As the healthcare industry is recently shifting its focus from disease treatment the past to prevention, patients are demanding more effective and safe treatment and personalized treatment from medical care providers.To achieve this, it is necessary to comprehensively analyze and utilize patients’ lifelong data, medical image data, genetic data, medical literature data, and medical records in hospitals. There are limitations in diagnosing patients by analyzing the vast amounts of data through doctors’ cognitive judgment ability and effort, and environmental factors.
+
+--- Paragraph 150 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 151 | Style: Heading 2 | Align: LEFT (0) ---
+  [Run font=Times New Roman size=177800 bold=None italic=None]: Literature Review 
+Text: Literature Review 
+
+--- Paragraph 152 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Studies have been actively conducted on AI technologies that assist and replace doctors to analyze patients’ data and support decision-making. Even for the same disease, doctors have huge differences in treatment and lack consistency.
+Text: Studies have been actively conducted on AI technologies that assist and replace doctors to analyze patients’ data and support decision-making. Even for the same disease, doctors have huge differences in treatment and lack consistency.
+
+--- Paragraph 153 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 154 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Since healthcare determines a person’s life and diagnoses diseases, its diagnosis ac- curacy is very important. Patients’ confidence is increasing toward AI-based healthcare technology with fast computational power and high accuracy based on diagnosis evidence
+Text: Since healthcare determines a person’s life and diagnoses diseases, its diagnosis ac- curacy is very important. Patients’ confidence is increasing toward AI-based healthcare technology with fast computational power and high accuracy based on diagnosis evidence
+
+--- Paragraph 155 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Medical imaging technology in AI is one of the fields with the most active research.
+Text: Medical imaging technology in AI is one of the fields with the most active research.
+
+--- Paragraph 156 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Title
+Text: Title
+
+--- Paragraph 157 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=12700 bold=None italic=None]: 
+Text: 
+
+--- Paragraph 158 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 159 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 160 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: To diagnose a disease, medical images collect various parts inside and outside the human body through an image collecting device, and clinical or image medical specialists use the collected images for diagnosis by relying entirely on their visual cognitive ability and 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: judgment..
+Text: To diagnose a disease, medical images collect various parts inside and outside the human body through an image collecting device, and clinical or image medical specialists use the collected images for diagnosis by relying entirely on their visual cognitive ability and judgment..
+
+--- Paragraph 161 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: However, such an existing method is being improved or replaced by AI [16]
+  [Run font=Times New Roman size=152400 bold=None italic=None]: –[
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 18]. Many studies are actively in progress because AI can recognize the characteristics of image data more accurately and faster than doctors.
+Text: However, such an existing method is being improved or replaced by AI [16]–[18]. Many studies are actively in progress because AI can recognize the characteristics of image data more accurately and faster than doctors.
+
+--- Paragraph 162 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 163 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: In particular, the recent outbreak of an unprecedented COVID-19 pandemic has in- creased the interest in responding to diseases by using new technologies such as AI and data to detect chest diseases, leading to more active related studies
+  [Run font=Times New Roman size=152400 bold=None italic=None]: .
+Text: In particular, the recent outbreak of an unprecedented COVID-19 pandemic has in- creased the interest in responding to diseases by using new technologies such as AI and data to detect chest diseases, leading to more active related studies.
+
+--- Paragraph 164 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 165 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Line-Feature Analysis algorithm that converts high-quality, high-resolution original images into low-dimension data to reduce the data proce
+  [Run font=Times New Roman size=152400 bold=None italic=None]: ssing speed for accurate analy
+  [Run font=Times New Roman size=152400 bold=None italic=None]: sis. For the accuracy and reliability of the LFA algorithm proposed in this study, accuracy was measured in an experiment according to the edge detec
+  [Run font=Times New Roman size=152400 bold=None italic=None]: tion algorithm, and the perfor
+  [Run font=Times New Roman size=152400 bold=None italic=None]: mance of the LFA-RNN model was compared with the existing learning model to confirm its performance.
+Text: Line-Feature Analysis algorithm that converts high-quality, high-resolution original images into low-dimension data to reduce the data processing speed for accurate analysis. For the accuracy and reliability of the LFA algorithm proposed in this study, accuracy was measured in an experiment according to the edge detection algorithm, and the performance of the LFA-RNN model was compared with the existing learning model to confirm its performance.
+
+--- Paragraph 166 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 167 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: A more detailed conclusion of the reviewed research works
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: for brain tumor detection are discussed in Table 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 1. 
+Text: A more detailed conclusion of the reviewed research works for brain tumor detection are discussed in Table 1. 
+
+--- Paragraph 168 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 169 | Style: Normal | Align: None ---
+  [Run font=None size=None bold=None italic=None]: Table 1:
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: New cases and
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: deaths
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: for
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: cancers reported in 2020 (Source GLOBO-
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: CAN
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: 2020
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: [2
+  [Run font=None size=None bold=None italic=None]: ]
+  [Run font=None size=None bold=None italic=None]:  
+  [Run font=None size=None bold=None italic=None]: )
+Text: Table 1: New cases and deaths for cancers reported in 2020 (Source GLOBO- CAN 2020 [2] )
+
+--- Paragraph 170 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 171 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 172 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]:    
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Motivation of the Work
+Text: 1.3	   Motivation of the Work
+
+--- Paragraph 173 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 174 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: 1.4
+  [Run font=Times New Roman size=177800 bold=True italic=None]: 	
+  [Run font=Times New Roman size=177800 bold=True italic=None]:    
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Research Gap
+Text: 1.4	   Research Gap
+
+--- Paragraph 175 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 176 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 177 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 178 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 179 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 180 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 181 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Chapter 2 
+Text: Chapter 2 
+
+--- Paragraph 182 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Problem Statement 
+Text: Problem Statement 
+
+--- Paragraph 183 | Style: Normal | Align: None ---
+  [Run font=None size=None bold=None italic=None]: 	
+Text: 	
+
+--- Paragraph 184 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 185 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The biggest motivation of doing this paper is Now a days X-ray and 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: CT  in
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  medicine use high-resolution images, they require high specification equipment and huge energy consumption due to high computation in learning and recognition, incurring huge costs to create an environment for operation. Thus, this paper proposes a chest X-ray outlier detection model which will decrease the working time.
+Text: The biggest motivation of doing this paper is Now a days X-ray and CT  in medicine use high-resolution images, they require high specification equipment and huge energy consumption due to high computation in learning and recognition, incurring huge costs to create an environment for operation. Thus, this paper proposes a chest X-ray outlier detection model which will decrease the working time.
+
+--- Paragraph 186 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 187 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: 2.1 
+  [Run font=Times New Roman size=177800 bold=True italic=None]:    
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Research Objectives
+Text: 2.1    Research Objectives
+
+--- Paragraph 188 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 189 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: 2.2 
+  [Run font=Times New Roman size=177800 bold=True italic=None]:    
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Analysis and Design
+Text: 2.2    Analysis and Design
+
+--- Paragraph 190 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Chapter 3 
+Text: Chapter 3 
+
+--- Paragraph 191 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Proposed Work
+Text: Proposed Work
+
+--- Paragraph 192 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 193 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Hybrid methods can be said to combine different single techniques to generate a way with greater flexibility and capability than single methods.  Due to their tremendous potential and capability for enhancing estimation and optimizing performance, hybrid approaches are growing in popularity. Machine learning algorithms work effectively in the detection of the masses and classification. Deep learning methods provide pre-trained models for feature extraction and Lately, Deep Learning is gaining much popularity due to its supremacy in terms of accuracy when trained with a huge amount of data. Therefore, in this paper, a deep hybrid model combining two classifiers Convolution Neural Network (CNN) and Support Vector 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Machine(
+  [Run font=Times New Roman size=152400 bold=None italic=None]: SVM) is proposed.
+Text: Hybrid methods can be said to combine different single techniques to generate a way with greater flexibility and capability than single methods.  Due to their tremendous potential and capability for enhancing estimation and optimizing performance, hybrid approaches are growing in popularity. Machine learning algorithms work effectively in the detection of the masses and classification. Deep learning methods provide pre-trained models for feature extraction and Lately, Deep Learning is gaining much popularity due to its supremacy in terms of accuracy when trained with a huge amount of data. Therefore, in this paper, a deep hybrid model combining two classifiers Convolution Neural Network (CNN) and Support Vector Machine(SVM) is proposed.
+
+--- Paragraph 194 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=True italic=None]:                                                     
+Text:                                                     
+
+--- Paragraph 195 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: 3.1    
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Methodology of work
+Text: 3.1    Methodology of work
+
+--- Paragraph 196 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 197 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Skin cancer is also one of the dangerous growing diseases and manual detection of these cancer cells takes time to cure. Skin cancer is increasing nowadays and most common among people so the detection of the cancers using different methods became crucial. Every day approximately 9,500 cases are registered in the U.S with people suffering from skin cancer. Approximately 20 Americans die every day and most of them are suffering from melanoma skin cancer. Skin cancers are categorized into 6 different types as shown in Fig. 3 and among them Melanoma is the most dangerous, unpredictable and 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: life threatening
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  skin cancer which will spread all over the body and cause severe damage to skin. It is mostly affected among females of age 15 to 29 [57].
+Text: Skin cancer is also one of the dangerous growing diseases and manual detection of these cancer cells takes time to cure. Skin cancer is increasing nowadays and most common among people so the detection of the cancers using different methods became crucial. Every day approximately 9,500 cases are registered in the U.S with people suffering from skin cancer. Approximately 20 Americans die every day and most of them are suffering from melanoma skin cancer. Skin cancers are categorized into 6 different types as shown in Fig. 3 and among them Melanoma is the most dangerous, unpredictable and life threatening skin cancer which will spread all over the body and cause severe damage to skin. It is mostly affected among females of age 15 to 29 [57].
+
+--- Paragraph 198 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 199 | Style: Normal | Align: CENTER (1) ---
+  [Run font=None size=None bold=None italic=None]: 
+Text: 
+
+--- Paragraph 200 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]:                                   
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Fig. 3: Types of Skin Cancers and Pre-cancers [3]
+Text:                                   Fig. 3: Types of Skin Cancers and Pre-cancers [3]
+
+--- Paragraph 201 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 202 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 203 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 204 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: 3.2
+  [Run font=Times New Roman size=177800 bold=True italic=None]:    
+  [Run font=Times New Roman size=177800 bold=True italic=None]: Hardware & Software specifications
+Text: 3.2   Hardware & Software specifications
+
+--- Paragraph 205 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 206 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=177800 bold=True italic=None]: 3.3
+  [Run font=Times New Roman size=177800 bold=True italic=None]:    Dataset Description
+Text: 3.3   Dataset Description
+
+--- Paragraph 207 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 208 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 209 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 210 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 211 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Chapter 4 
+Text: Chapter 4 
+
+--- Paragraph 212 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Results and Discussion
+Text: Results and Discussion
+
+--- Paragraph 213 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Our Research proposes a chest X-ray outlier detection model using dimension reduction and edge detection. Unlike the existing dimension reduction techniques, the proposed algorithm uses its own data as the standard for dimension reduction and always applies a consistent classification criterion.
+Text: Our Research proposes a chest X-ray outlier detection model using dimension reduction and edge detection. Unlike the existing dimension reduction techniques, the proposed algorithm uses its own data as the standard for dimension reduction and always applies a consistent classification criterion.
+
+--- Paragraph 214 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: In the existing techniques, classification criteria changed according to the number of learning data, class distribution, and type. However, this may degrade the performance of recognition by reanalyzing the classification criteria and using inefficient classification when applied to additional learning data and daily life data.
+Text: In the existing techniques, classification criteria changed according to the number of learning data, class distribution, and type. However, this may degrade the performance of recognition by reanalyzing the classification criteria and using inefficient classification when applied to additional learning data and daily life data.
+
+--- Paragraph 215 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Moreover, it realizes the prediction of response to different treatment modalities because it can predict the pattern of cardiovascular complications.
+Text: Moreover, it realizes the prediction of response to different treatment modalities because it can predict the pattern of cardiovascular complications.
+
+--- Paragraph 216 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 217 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Hence, considering their properties and multiple advantages, ELMs are 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: recom
+  [Run font=Times New Roman size=152400 bold=None italic=None]: - mended for such problems.
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: However, it should be noted while AI speeds up the methods to conquer COVID-19,
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: real experiments should happen because a full understanding of advantages and 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: limita
+  [Run font=Times New Roman size=152400 bold=None italic=None]: - 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: tions
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  of AI-based methods for COVID-19 is yet to be achieved, and novel approaches have to be in place for problems of this level of complexity.
+Text: Hence, considering their properties and multiple advantages, ELMs are recom- mended for such problems. However, it should be noted while AI speeds up the methods to conquer COVID-19, real experiments should happen because a full understanding of advantages and limita- tions of AI-based methods for COVID-19 is yet to be achieved, and novel approaches have to be in place for problems of this level of complexity.
+
+--- Paragraph 218 | Style: Normal | Align: JUSTIFY (3) ---
+Text: 
+
+--- Paragraph 219 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The RNN, as alternatively called Auto Associative or Feedback Network, falls in the
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=None italic=None]: category of LSTM in which a directed cycle is made through connections between units. Being a widely appreciated DL family, RNNs have succeeded to present promising results in a lot of machine learning and computer vision tasks. One important task to use this model, however, is the quantification of qualitative inputs such as country and location.
+Text: The RNN, as alternatively called Auto Associative or Feedback Network, falls in the category of LSTM in which a directed cycle is made through connections between units. Being a widely appreciated DL family, RNNs have succeeded to present promising results in a lot of machine learning and computer vision tasks. One important task to use this model, however, is the quantification of qualitative inputs such as country and location.
+
+--- Paragraph 220 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Title
+Text: Title
+
+--- Paragraph 221 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=12700 bold=None italic=None]: 
+Text: 
+
+--- Paragraph 222 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 223 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 224 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Updating the model is possible because of the real-time data by LSTM with real-time learning capability. Utilization of the proposed LSTM model provides the opportunity of proposing the epidemiological model of the virus in different locations. The main objective of the proposed structure is to improve the accuracy and speed of recognition and classification of the issues caused by the virus by utilizing DL-based methods.
+Text: Updating the model is possible because of the real-time data by LSTM with real-time learning capability. Utilization of the proposed LSTM model provides the opportunity of proposing the epidemiological model of the virus in different locations. The main objective of the proposed structure is to improve the accuracy and speed of recognition and classification of the issues caused by the virus by utilizing DL-based methods.
+
+--- Paragraph 225 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 226 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 227 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 228 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 229 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 230 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 231 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 232 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 233 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 234 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 235 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 236 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 237 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 238 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 239 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 240 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 241 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 242 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 243 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 244 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 245 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 246 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 247 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 248 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 249 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 250 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 251 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 252 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 253 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 254 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 255 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 256 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 257 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 258 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 259 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 260 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 261 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 262 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 263 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 264 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 265 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 266 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 267 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 268 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Chapter 5 
+Text: Chapter 5 
+
+--- Paragraph 269 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: Conclusion and Future Scope
+Text: Conclusion and Future Scope
+
+--- Paragraph 270 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 271 | Style: Normal | Align: JUSTIFY (3) ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The introduced conceptual structures and platforms in the research field of AI-based techniques, which are suitable for dealing with COVID-19 issues, have been studied in this paper. Different techniques have been developed, incorporating COVID-19’s diagnostic systems, such as RNN, LSTM, GAN, and ELM. The geographical issues, high-risk people, and recognizing and radiology were the main problems with COVID-19 and have been studied and discussed in this work. Also, we showed a mechanism for selecting the appropriate models of estimation and prediction of desired parameters using a number of clinical and non-clinical datasets. Considering these platforms assists AI experts to analyze huge datasets and help physicians train machines, set algorithms or optimize the analyzed data for dealing with the virus with more speed and accuracy. We discussed that they are desirable because of their potential for creating a workspace while AI experts and physicians could work side by side. However, it should be noted while AI speeds up the methods to conquer COVID-19, real experiments should happen because a full understanding of advantages and limitations of AI-based methods for COVID-19 is yet to be achieved, and novel approaches have to be in place for problems of this level of complexity.
+Text: The introduced conceptual structures and platforms in the research field of AI-based techniques, which are suitable for dealing with COVID-19 issues, have been studied in this paper. Different techniques have been developed, incorporating COVID-19’s diagnostic systems, such as RNN, LSTM, GAN, and ELM. The geographical issues, high-risk people, and recognizing and radiology were the main problems with COVID-19 and have been studied and discussed in this work. Also, we showed a mechanism for selecting the appropriate models of estimation and prediction of desired parameters using a number of clinical and non-clinical datasets. Considering these platforms assists AI experts to analyze huge datasets and help physicians train machines, set algorithms or optimize the analyzed data for dealing with the virus with more speed and accuracy. We discussed that they are desirable because of their potential for creating a workspace while AI experts and physicians could work side by side. However, it should be noted while AI speeds up the methods to conquer COVID-19, real experiments should happen because a full understanding of advantages and limitations of AI-based methods for COVID-19 is yet to be achieved, and novel approaches have to be in place for problems of this level of complexity.
+
+--- Paragraph 272 | Style: Heading 1 | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=None italic=None]: References
+Text: References
+
+--- Paragraph 273 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 274 | Style: Normal | Align: None ---
+  [Run font=Arial size=152400 bold=None italic=None]: [1] 
+Text: [1] 
+
+--- Paragraph 275 | Style: Normal | Align: None ---
+  [Run font=Arial size=152400 bold=None italic=None]: [2]
+Text: [2]
+
+--- Paragraph 276 | Style: Normal | Align: None ---
+  [Run font=Arial size=152400 bold=None italic=None]: [3]
+Text: [3]
+
+--- Paragraph 277 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 278 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 279 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 280 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 281 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 282 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 283 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 284 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 285 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 286 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 287 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 288 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 289 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 290 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 291 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 292 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 293 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 294 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 295 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 296 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 297 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 298 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 299 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 300 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 301 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 302 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 303 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 304 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 305 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 306 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 307 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 308 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 309 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 310 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 311 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 312 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 313 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 314 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 315 | Style: Normal | Align: CENTER (1) ---
+  [Run font=Times New Roman size=215900 bold=True italic=None]: Instructions
+Text: Instructions
+
+--- Paragraph 316 | Style: Normal | Align: CENTER (1) ---
+Text: 
+
+--- Paragraph 317 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: All the pages should be numbered at the bottom right side of the page.
+Text: All the pages should be numbered at the bottom right side of the page.
+
+--- Paragraph 318 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: All the References should be mentioned in the APA format. 
+Text: All the References should be mentioned in the APA format. 
+
+--- Paragraph 319 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: All the tables and figures should be
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+  [Run font=Times New Roman size=152400 bold=True italic=None]: captioned properly
+  [Run font=Times New Roman size=152400 bold=None italic=None]: . The compiled list of the tables and figures should be presented in the appendix. 
+Text: All the tables and figures should be captioned properly. The compiled list of the tables and figures should be presented in the appendix. 
+
+--- Paragraph 320 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The report should be original in its work. 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Maximum 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 20% of plagiarism is permissible. Students must attach an Undertaking for plagiarism report at the designated place of the report. 
+Text: The report should be original in its work. Maximum 20% of plagiarism is permissible. Students must attach an Undertaking for plagiarism report at the designated place of the report. 
+
+--- Paragraph 321 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The students must get the report verified, evaluated and signed by the supervisor before its final submission in the spiral bound form and incorporate any changes, suggestions or recommendations as directed by the supervisor.
+Text: The students must get the report verified, evaluated and signed by the supervisor before its final submission in the spiral bound form and incorporate any changes, suggestions or recommendations as directed by the supervisor.
+
+--- Paragraph 322 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The students should bring the final report (spiral bound) on the day of End-Semester Project Presentation and submit it to their respective panelists. 
+Text: The students should bring the final report (spiral bound) on the day of End-Semester Project Presentation and submit it to their respective panelists. 
+
+--- Paragraph 323 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The format of BTP/MTP report shared should be strictly followed. 
+Text: The format of BTP/MTP report shared should be strictly followed. 
+
+--- Paragraph 324 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The Problem Statement and Objectives submitted during the Mid-Term Presentation must be attached to the Final report after the Bonafide certificate given in the sample report. 
+Text: The Problem Statement and Objectives submitted during the Mid-Term Presentation must be attached to the Final report after the Bonafide certificate given in the sample report. 
+
+--- Paragraph 325 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: The
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  order of report 
+  [Run font=Times New Roman size=152400 bold=None italic=None]: should be in the following format:
+Text: The order of report should be in the following format:
+
+--- Paragraph 326 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Title Page
+Text: Title Page
+
+--- Paragraph 327 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Bonafide Certificate, Conflict of Interest and Undertaking for Plagiarism
+Text: Bonafide Certificate, Conflict of Interest and Undertaking for Plagiarism
+
+--- Paragraph 328 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Problem statement and objectives submitted during the Mid-Term Presentation 
+Text: Problem statement and objectives submitted during the Mid-Term Presentation 
+
+--- Paragraph 329 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Abstract with keywords
+Text: Abstract with keywords
+
+--- Paragraph 330 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Contents
+Text: Contents
+
+--- Paragraph 331 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: Chapters as suggested in report
+Text: Chapters as suggested in report
+
+--- Paragraph 332 | Style: Normal | Align: None ---
+Text: 
+
+--- Paragraph 333 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 11. All the data/tables/figures taken from other sources should be duly credited in the footnotes or references.
+Text: 11. All the data/tables/figures taken from other sources should be duly credited in the footnotes or references.
+
+--- Paragraph 334 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 12. The font size should be 12 throughout the document. The title should be Font size 17 and sub-heading should be Font Size 14, followed by under subheadings as Font Size 12. The Font Style must be 
+  [Run font=Times New Roman size=152400 bold=True italic=None]: Times New Roman Only
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  and spacing between each line must be 1 and between headings should be 2. 
+Text: 12. The font size should be 12 throughout the document. The title should be Font size 17 and sub-heading should be Font Size 14, followed by under subheadings as Font Size 12. The Font Style must be Times New Roman Only and spacing between each line must be 1 and between headings should be 2. 
+
+--- Paragraph 335 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 13. The spacing between each line must be 1.15 and between headings must be 2. 
+Text: 13. The spacing between each line must be 1.15 and between headings must be 2. 
+
+--- Paragraph 336 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 14. All the paragraphs must be aligned as “
+  [Run font=Times New Roman size=152400 bold=True italic=None]: justify
+  [Run font=Times New Roman size=152400 bold=None italic=None]: ” while the headings must be in center, the sub-headings should be left aligned. 
+Text: 14. All the paragraphs must be aligned as “justify” while the headings must be in center, the sub-headings should be left aligned. 
+
+--- Paragraph 337 | Style: Normal | Align: None ---
+  [Run font=Times New Roman size=152400 bold=None italic=None]: 15. Do attach the “P
+  [Run font=Times New Roman size=152400 bold=True italic=None]: rogress
+  [Run font=Times New Roman size=152400 bold=True italic=None]:  Report” duly signed by your respective supervisor at the end of the report. 
+  [Run font=Times New Roman size=152400 bold=None italic=None]:  
+Text: 15. Do attach the “Progress Report” duly signed by your respective supervisor at the end of the report.  
+

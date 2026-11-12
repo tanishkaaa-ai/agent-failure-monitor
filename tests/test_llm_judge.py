@@ -7,7 +7,7 @@ error handling, and end-to-end integration.
 import json
 import pytest
 from src.judge.judge import LLMJudge, clean_json_text
-from src.judge.llm_client import BaseLLMClient, MockLLMClient
+from src.judge.llm_client import BaseLLMClient, GrokClient, MockLLMClient
 from src.judge.schema import (
     JudgeConfidence,
     JudgeResponse,
@@ -15,6 +15,19 @@ from src.judge.schema import (
     ReasonCategory,
 )
 from src.signals.engine import RuntimeSignalsEngine
+
+
+def test_grok_client_init_and_validation():
+    """Validates GrokClient initialization and parameter handling."""
+    # Custom valid key
+    client = GrokClient(api_key="xai-dummy-test-key", model="grok-2-latest")
+    assert client.api_key == "xai-dummy-test-key"
+    assert client.model == "grok-2-latest"
+    assert client.base_url == "https://api.x.ai/v1"
+
+    # Placeholder or empty key raises ValueError
+    with pytest.raises(ValueError):
+        GrokClient(api_key="your_grok_api_key_here")
 
 
 class FaultyLLMClient(BaseLLMClient):

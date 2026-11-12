@@ -60,6 +60,7 @@ class AgentFailureGuardSystem:
         config_path: Optional[str] = None,
         tool_registry: Optional[ToolRegistry] = None,
         max_interventions: int = 4,
+        llm_judge: Optional[LLMJudge] = None,
     ):
         # 1. Configuration
         if config_path and os.path.exists(config_path):
@@ -70,7 +71,7 @@ class AgentFailureGuardSystem:
         # 2. Subsystems
         self.signals_engine = RuntimeSignalsEngine()
         self.ml_predictor = AgentFailurePredictor()
-        self.llm_judge = LLMJudge()
+        self.llm_judge = llm_judge or LLMJudge()
         self.decision_system = DecisionSystem(config=self.config)
         self.registry = tool_registry or ToolRegistry()
         self.intervention_engine = InterventionEngine(

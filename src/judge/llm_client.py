@@ -1,6 +1,6 @@
 """
 LLM Client Interface for LLM Judge.
-Supports Google Gemini, OpenAI-compatible APIs, and an offline rule-assisted Mock client.
+Supports xAI Grok, Google Gemini, OpenAI-compatible APIs, and an offline rule-assisted Mock client.
 """
 
 from abc import ABC, abstractmethod
@@ -8,7 +8,11 @@ import json
 import os
 import re
 from typing import Optional
+from dotenv import load_dotenv
 import httpx
+
+# Load .env file automatically
+load_dotenv()
 
 
 class BaseLLMClient(ABC):
@@ -91,6 +95,110 @@ class OpenAIClient(BaseLLMClient):
             return data["choices"][0]["message"]["content"]
 
 
+class GroqClient(BaseLLMClient):
+    """Groq API client (ultra-fast inference at https://api.groq.com/openai/v1)."""
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model: Optional[str] = None,
+        base_url: Optional[str] = None,
+    ):
+        raw_key = (
+            api_key
+            or os.getenv("GROQ_API_KEY")
+            or os.getenv("GROK_API_KEY")
+            or os.getenv("XAI_API_KEY", "")
+        )
+        # Clean prefix if 'xai-' was prepended to a Groq 'gsk_' key
+        if raw_key.startswith("xai-gsk_"):
+            raw_key = raw_key[4:]
+        self.api_key = raw_key
+        # Default to available Groq fast chat model
+        self.model = (
+            model
+            or os.getenv("GROQ_MODEL")
+            or os.getenv("GROK_MODEL")
+            or "qwen/qwen3.8-27b"
+        )
+        if self.model == "grok-2-latest":  # User set Grok model on Groq key
+            self.model = "qwen/qwen3.8-27b"
+        self.base_url = (base_url or os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")).rstrip("/")
+        if not self.api_key or "your_" in self.api_key:
+            raise ValueError("A valid GROQ_API_KEY is required for GroqClient.")
+
+    def generate(self, system_prompt: str, user_prompt: str, timeout: float = 15.0) -> str:
+        url = f"{self.base_url}/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "model": self.model,
+            "temperature": 0.1,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+        }
+        with httpx.Client(timeout=timeout) as client:
+            resp = client.post(url, headers=headers, json=payload)
+            # Automatic backoff if hitting Groq free-tier rate limits (429)
+            if resp.status_code == 429:
+                import time
+                time.sleep(1.5)
+                resp = client.post(url, headers=headers, json=payload)
+
+            resp.raise_for_status()
+            data = resp.json()
+            choices = data.get("choices", [])
+            if not choices:
+                raise RuntimeError(f"Groq API returned no choices: {data}")
+            return choices[0]["message"]["content"]
+
+
+class GrokClient(BaseLLMClient):
+    """xAI Grok API client (OpenAI-compatible endpoint at https://api.x.ai/v1)."""
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model: Optional[str] = None,
+        base_url: Optional[str] = None,
+    ):
+        self.api_key = api_key or os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY", "")
+        self.model = model or os.getenv("GROK_MODEL", "grok-2-latest")
+        self.base_url = (base_url or os.getenv("GROK_BASE_URL", "https://api.x.ai/v1")).rstrip("/")
+        if not self.api_key or "your_" in self.api_key:
+            raise ValueError(
+                "A valid GROK_API_KEY (or XAI_API_KEY) is required for GrokClient. "
+                "Please set your xAI API key in .env."
+            )
+
+    def generate(self, system_prompt: str, user_prompt: str, timeout: float = 20.0) -> str:
+        url = f"{self.base_url}/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "model": self.model,
+            "temperature": 0.1,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+        }
+        with httpx.Client(timeout=timeout) as client:
+            resp = client.post(url, headers=headers, json=payload)
+            resp.raise_for_status()
+            data = resp.json()
+            choices = data.get("choices", [])
+            if not choices:
+                raise RuntimeError(f"Grok API returned no choices: {data}")
+            return choices[0]["message"]["content"]
+
+
 class MockLLMClient(BaseLLMClient):
     """
     Deterministic offline mock client for testing, local CI, and fallback.
@@ -150,14 +258,36 @@ class MockLLMClient(BaseLLMClient):
 
 def get_default_llm_client() -> BaseLLMClient:
     """Factory to instantiate client based on environment variables."""
+    load_dotenv()
     provider = os.getenv("LLM_PROVIDER", "").lower()
+    key_candidate = (
+        os.getenv("GROQ_API_KEY")
+        or os.getenv("GROK_API_KEY")
+        or os.getenv("XAI_API_KEY", "")
+    )
 
+    # 1. Check Groq (keys starting with gsk_ or xai-gsk_)
+    if provider == "groq" or key_candidate.startswith("gsk_") or key_candidate.startswith("xai-gsk_"):
+        try:
+            return GroqClient()
+        except Exception:
+            pass
+
+    # 2. Check xAI Grok (standard xAI keys)
+    if provider in ("grok", "xai") or key_candidate.startswith("xai-"):
+        try:
+            return GrokClient()
+        except Exception:
+            pass
+
+    # 3. Check Gemini
     if provider == "gemini" or (not provider and os.getenv("GEMINI_API_KEY")):
         try:
             return GeminiClient()
         except Exception:
             pass
 
+    # 3. Check OpenAI
     if provider == "openai" or (not provider and os.getenv("OPENAI_API_KEY")):
         try:
             return OpenAIClient()
